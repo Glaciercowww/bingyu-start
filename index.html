@@ -12,7 +12,7 @@
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;      
+      box-sizing: border-box;
     }
 
     :root {
@@ -103,6 +103,30 @@
       background: rgba(255, 255, 255, 0.8);
     }
 
+    
+
+
+    body.light-mode .pinned-notes::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    body.light-mode .pinned-notes::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    body.light-mode .pinned-notes {
+      scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+    }
+
+    body.light-mode .pinned-notes-toggle {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-left: none;
+    }
+
+
+
+
     body.light-mode .top-btn {
       background: rgba(255, 255, 255, 0.6);
       border: 1px solid rgba(0, 0, 0, 0.08);
@@ -157,16 +181,88 @@
       position: relative;
     }
 
-    /* 便签固定在左上角 */
-    .pinned-notes {
+    /* 便签固定在左上角 - 外层容器 */
+    .pinned-notes-wrapper {
       position: fixed;
       top: 20px;
-      left: 20px;
+      left: 0;
       z-index: 100;
+      display: flex;
+      align-items: flex-start;
+      transition: transform 0.3s ease;
+    }
+
+    .pinned-notes-wrapper.collapsed {
+      transform: translateX(-300px);
+    }
+
+    /* 收纳切换按钮 */
+    .pinned-notes-toggle {
+      width: 24px;
+      height: 50px;
+      background: rgba(30, 30, 40, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-left: none;
+      border-radius: 0 8px 8px 0;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .pinned-notes-toggle:hover {
+      background: rgba(40, 40, 55, 0.8);
+      color: var(--text-primary);
+    }
+
+    .pinned-notes-toggle svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    .pinned-notes-wrapper.collapsed .pinned-notes-toggle svg {
+      transform: rotate(180deg);
+    }
+
+    /* 便签容器 */
+    .pinned-notes {
+      margin-left: 20px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       max-width: 280px;
+      max-height: calc(100vh - 40px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    /* 美化滚动条 */
+    .pinned-notes::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .pinned-notes::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .pinned-notes::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+    }
+
+    .pinned-notes::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Firefox 滚动条 */
+    .pinned-notes {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
     }
 
     .pinned-note {
@@ -2603,7 +2699,19 @@
   <div class="vignette-layer" id="vignetteLayer"></div>
 
   <!-- 固定便签 -->
-  <div class="pinned-notes" id="pinnedNotes"></div>
+  <div class="pinned-notes-wrapper" id="pinnedNotesWrapper">
+    <div class="pinned-notes" id="pinnedNotes"></div>
+    <button class="pinned-notes-toggle" id="pinnedNotesToggle" title="收起/展开便签">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+    </button>
+  </div>
+
+
+
+
+
 
   <!-- 右上角按钮 -->
   <div class="top-right-buttons">
@@ -4795,6 +4903,14 @@
         if (item) selectNote(item.dataset.id);
       });
       
+
+      // 便签收纳切换
+      document.getElementById('pinnedNotesToggle').addEventListener('click', () => {
+        document.getElementById('pinnedNotesWrapper').classList.toggle('collapsed');
+      });
+
+
+
       // 固定便签点击
       document.getElementById('pinnedNotes').addEventListener('click', (e) => {
         const note = e.target.closest('.pinned-note');
