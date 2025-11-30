@@ -361,6 +361,7 @@
     /* 一言 */
     .hitokoto-section {
       text-align: center;
+      margin-top: 33rem;
       margin-bottom: 2rem;
     }
 
@@ -1859,6 +1860,516 @@
       margin-top: 8px;
     }
 
+
+
+    /* ========== 关于弹窗 ========== */
+    .about-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+
+
+
+    .about-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* .about-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 420px;
+      max-width: 90%;
+      max-height: 80vh;
+      background: linear-gradient(180deg, rgba(35, 40, 55, 0.98) 0%, rgba(25, 28, 40, 0.98) 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      z-index: 2001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -50%) scale(0.9);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    } */
+
+
+
+
+    .about-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 420px;
+      max-width: 90%;
+      height: 75vh;              /* 🔧 关键修改：改为固定高度 */
+      max-height: 700px;         /* 🔧 新增：最大高度限制 */
+      min-height: 400px;         /* 🔧 新增：最小高度限制 */
+      background: linear-gradient(180deg, rgba(35, 40, 55, 0.98) 0%, rgba(25, 28, 40, 0.98) 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+      z-index: 2001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, -50%) scale(0.9);
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .about-modal.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .about-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+
+    .about-close-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    /* 头部区域 - 固定 */
+    .about-header {
+      padding: 32px 32px 24px;
+      text-align: center;
+      background: inherit;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s ease;
+    }
+
+    .about-header.collapsed {
+      padding: 16px 32px;
+    }
+
+    .about-logo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, var(--theme-color) 0%, rgba(0, 212, 255, 0.6) 100%);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 8px 32px rgba(0, 212, 255, 0.25);
+      transition: all 0.4s ease;
+    }
+
+    .about-header.collapsed .about-logo {
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      border-radius: 10px;
+      margin-bottom: 0;
+    }
+
+    .about-title-group {
+      transition: all 0.4s ease;
+      overflow: hidden;
+    }
+
+    .about-header.collapsed .about-title-group {
+      height: 0;
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .about-app-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .about-version-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(var(--theme-color), 0.15);
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15) 0%, rgba(0, 180, 220, 0.1) 100%);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--theme-color);
+      margin-top: 8px;
+    }
+
+    .about-author {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .about-author a {
+      color: var(--theme-color);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .about-author a:hover {
+      opacity: 0.8;
+    }
+
+    .about-stats {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.4s ease;
+    }
+
+    .about-header.collapsed .about-stats {
+      display: none;
+    }
+
+    .about-stat {
+      text-align: center;
+    }
+
+    .about-stat-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .about-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* 更新日志区域 - 可滚动 */
+    .about-changelog {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;        /* 🔧 新增：防止水平滚动 */
+      padding: 20px 24px;
+      min-height: 0;             /* 🔧 关键新增：这行很重要！让flex子元素可以收缩 */
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.1) transparent;
+    }
+
+    .about-changelog::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .about-changelog::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+    }
+
+    .about-changelog::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .changelog-section {
+      margin-bottom: 20px;
+    }
+
+    .changelog-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .changelog-date {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .changelog-date::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--theme-color);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--theme-color);
+    }
+
+    .changelog-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 16px;
+      border-left: 2px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .changelog-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .changelog-item:hover {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .changelog-tag {
+      flex-shrink: 0;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .changelog-tag.new {
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.2) 0%, rgba(34, 197, 94, 0.1) 100%);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .changelog-tag.fix {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.2) 0%, rgba(245, 158, 11, 0.1) 100%);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .changelog-tag.improve {
+      background: linear-gradient(135deg, rgba(96, 165, 250, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+      color: #60a5fa;
+      border: 1px solid rgba(96, 165, 250, 0.3);
+    }
+
+    .changelog-tag.remove {
+      background: linear-gradient(135deg, rgba(248, 113, 113, 0.2) 0%, rgba(239, 68, 68, 0.1) 100%);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    .changelog-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* 底部链接 */
+    .about-footer {
+      padding: 16px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .about-link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .about-link:hover {
+      color: var(--theme-color);
+    }
+
+    .about-link svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ========== 微信群弹窗 ========== */
+    .wechat-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .wechat-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .wechat-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      width: 320px;
+      background: linear-gradient(145deg, #1a1d24 0%, #12141a 100%);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+      z-index: 3001;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
+    }
+
+    .wechat-modal.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .wechat-modal-header {
+      padding: 24px 24px 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .wechat-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .wechat-modal-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .wechat-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #07c160 0%, #05a14b 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 24px rgba(7, 193, 96, 0.3);
+    }
+
+    .wechat-icon svg {
+      width: 32px;
+      height: 32px;
+      fill: white;
+    }
+
+    .wechat-modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .wechat-modal-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .wechat-qr-container {
+      padding: 20px 32px 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .wechat-qr-wrapper {
+      background: white;
+      padding: 12px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .wechat-qr-wrapper img {
+      width: 180px;
+      height: 180px;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .wechat-modal-footer {
+      padding: 16px 24px 24px;
+      text-align: center;
+    }
+
+    .wechat-tip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(7, 193, 96, 0.1);
+      border: 1px solid rgba(7, 193, 96, 0.2);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #07c160;
+    }
+
+    .wechat-tip svg {
+      width: 14px;
+      height: 14px;
+    }
+
+
+
+
+
+
+
+
+
+
     /* 隐藏文件输入 */
     .hidden-input {
       display: none;
@@ -2266,7 +2777,7 @@
             </button>
           </div>
         </div>
-        <div class="version-info">版本: v1.0.0</div>
+        <div class="version-info" id="openAboutBtn" style="cursor: pointer; transition: color 0.2s;"> 版本: v1.0.0 · 点击查看更新日志 → </div>
       </div>
     </div>
   </div>
@@ -2384,6 +2895,87 @@
     </div>
   </div>
 
+
+
+<!-- 关于日志弹窗 -->
+  <div class="about-modal-overlay" id="aboutModalOverlay"></div>
+  <div class="about-modal" id="aboutModal">
+    <button class="about-close-btn" id="aboutCloseBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    
+    <div class="about-header" id="aboutHeader">
+      <div class="about-logo">❄️</div>
+      <div class="about-title-group">
+        <div class="about-app-name">冰屿起始页</div>
+        <div class="about-version-badge" id="aboutVersionBadge">v1.0.0</div>
+        <div class="about-author">
+          由 <a href="#">陈冰川</a> 倾心打造
+        </div>
+        <div class="about-stats">
+          <div class="about-stat">
+            <div class="about-stat-value" id="aboutDaysOnline">0</div>
+            <div class="about-stat-label">上线天数</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-value" id="aboutLastUpdate">--</div>
+            <div class="about-stat-label">最近更新</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="about-changelog" id="aboutChangelog">
+      <!-- 更新日志将通过 JS 动态生成 -->
+    </div>
+    
+    <div class="about-footer">
+      <a href="https://github.com/Glaciercowww" class="about-link">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="javascript:void(0)" class="about-link" id="openWechatModal">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.328.328 0 00.186-.059l2.114-1.225a.867.867 0 01.428-.117c.074 0 .148.01.22.03.857.23 1.77.357 2.714.357.26 0 .517-.009.773-.028a5.853 5.853 0 01-.166-1.377c0-3.524 3.258-6.382 7.272-6.382.257 0 .511.013.762.038C16.33 4.811 12.834 2.188 8.691 2.188zm-2.92 4.652a.935.935 0 110 1.87.935.935 0 010-1.87zm5.458 0a.935.935 0 110 1.87.935.935 0 010-1.87z"/></svg>
+        反馈群
+      </a>
+    </div>
+  </div>
+
+
+  <!-- 微信群弹窗 -->
+  <div class="wechat-modal-overlay" id="wechatModalOverlay"></div>
+  <div class="wechat-modal" id="wechatModal">
+    <div class="wechat-modal-header">
+      <button class="wechat-modal-close" id="wechatModalClose">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <div class="wechat-icon">
+        <svg viewBox="0 0 24 24"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.328.328 0 00.186-.059l2.114-1.225a.867.867 0 01.428-.117c.074 0 .148.01.22.03.857.23 1.77.357 2.714.357.26 0 .517-.009.773-.028a5.853 5.853 0 01-.166-1.377c0-3.524 3.258-6.382 7.272-6.382.257 0 .511.013.762.038C16.33 4.811 12.834 2.188 8.691 2.188zm-2.92 4.652a.935.935 0 110 1.87.935.935 0 010-1.87zm5.458 0a.935.935 0 110 1.87.935.935 0 010-1.87zM17.4 9.932c-3.466 0-6.276 2.484-6.276 5.547 0 3.063 2.81 5.547 6.276 5.547.675 0 1.325-.092 1.938-.264a.614.614 0 01.156-.02.61.61 0 01.303.083l1.497.87a.232.232 0 00.131.041.205.205 0 00.205-.205c0-.05-.02-.1-.034-.148l-.277-1.048a.418.418 0 01.151-.472c1.296-.956 2.131-2.37 2.131-3.934 0-3.063-2.81-5.547-6.276-5.547zm-2.344 3.148a.748.748 0 11-.002 1.496.748.748 0 01.002-1.496zm4.688 0a.748.748 0 11-.002 1.496.748.748 0 01.002-1.496z"/></svg>
+      </div>
+      <div class="wechat-modal-title">加入粉丝群</div>
+      <div class="wechat-modal-subtitle">扫码加入，交流反馈</div>
+    </div>
+    <div class="wechat-qr-container">
+      <div class="wechat-qr-wrapper">
+        <img src="assets/images/wechat-qr.png" alt="微信群二维码" id="wechatQrImage">
+      </div>
+    </div>
+    <div class="wechat-modal-footer">
+      <div class="wechat-tip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        长按或截图扫码加入
+      </div>
+    </div>
+  </div>
+
+
+
+
+
   <!-- 隐藏的文件输入 -->
   <input type="file" id="wallpaperFileInput" class="hidden-input" accept="image/*" multiple>
   <input type="file" id="importFileInput" class="hidden-input" accept=".json">
@@ -2392,6 +2984,113 @@
     // ==================== 应用版本 ====================
     const APP_VERSION = '1.0.0';
     const DATA_VERSION = 1; // 数据结构版本，用于未来迁移
+
+
+        // ==================== 更新日志数据 ====================
+    const CHANGELOG_DATA = [
+      {
+        date: '2025-11-30',
+        items: [
+          { type: 'new', text: '全新的冰屿起始页正式发布' },
+          { type: 'new', text: '支持自定义壁纸' },
+          { type: 'new', text: '便签功能支持 任务列表' },
+          { type: 'new', text: '底搜索后自动清空输入框' },
+          { type: 'new', text: '记录搜索历史' },
+          { type: 'new', text: '底部快捷栏支持拖拽排序' },
+          { type: 'fix', text: '功能测试' },
+        ]
+      },
+      {
+        date: '2025-11-29',
+        items: [
+          { type: 'improve', text: '优化搜索框交互体验' },
+          { type: 'fix', text: '修复壁纸加载失败的问题' },
+          { type: 'new', text: '新增一言句子自定义功能' },
+        ]
+      },
+      {
+        date: '2025-11-26',
+        items: [
+          { type: 'new', text: '项目初始化，开始开发' },
+        ]
+      }
+    ];
+
+    // 项目上线日期（用于计算上线天数）
+    const PROJECT_START_DATE = new Date('2025-11-26');
+
+    // ==================== 关于弹窗函数 ====================
+    function openAboutModal() {
+      // 更新版本号
+      document.getElementById('aboutVersionBadge').textContent = `v${APP_VERSION}`;
+      
+      // 计算上线天数
+      const today = new Date();
+      const daysOnline = Math.floor((today - PROJECT_START_DATE) / (1000 * 60 * 60 * 24));
+      document.getElementById('aboutDaysOnline').textContent = daysOnline;
+      
+      // 最近更新日期
+      if (CHANGELOG_DATA.length > 0) {
+        document.getElementById('aboutLastUpdate').textContent = CHANGELOG_DATA[0].date;
+      }
+      
+      // 渲染更新日志
+      renderChangelog();
+      
+      // 重置头部状态
+      document.getElementById('aboutHeader').classList.remove('collapsed');
+      document.getElementById('aboutChangelog').scrollTop = 0;
+      
+      // 显示弹窗
+      document.getElementById('aboutModalOverlay').classList.add('show');
+      document.getElementById('aboutModal').classList.add('show');
+    }
+
+    function closeAboutModal() {
+      document.getElementById('aboutModalOverlay').classList.remove('show');
+      document.getElementById('aboutModal').classList.remove('show');
+    }
+
+    function renderChangelog() {
+      const container = document.getElementById('aboutChangelog');
+      const typeLabels = {
+        'new': '新增',
+        'fix': '修复',
+        'improve': '优化',
+        'remove': '移除'
+      };
+      
+      container.innerHTML = CHANGELOG_DATA.map(section => `
+        <div class="changelog-section">
+          <div class="changelog-date">${section.date}</div>
+          <div class="changelog-items">
+            ${section.items.map(item => `
+              <div class="changelog-item">
+                <span class="changelog-tag ${item.type}">${typeLabels[item.type] || item.type}</span>
+                <span class="changelog-text">${item.text}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 滚动时隐藏头部信息的动画
+    function setupAboutScrollEffect() {
+      const changelog = document.getElementById('aboutChangelog');
+      const header = document.getElementById('aboutHeader');
+      
+      changelog.addEventListener('scroll', () => {
+        if (changelog.scrollTop > 30) {
+          header.classList.add('collapsed');
+        } else {
+          header.classList.remove('collapsed');
+        }
+      });
+    }
+
+
+
 
     // ==================== 数据存储 ====================
     const defaultWallpapers = [
@@ -2417,7 +3116,7 @@
     ];
 
     const defaultSites = [
-      { name: '翻译', url: 'https://translate.google.com', icon: '文', color: '#06b6d4' },
+      { name: '翻译', url: 'https://translate.google.com', icon: '译', color: '#06b6d4' },
       { name: 'AI 工具', url: 'https://chat.openai.com', icon: '🤖', color: '#10b981' },
       { name: '图片', url: 'https://unsplash.com', icon: '🖼️', color: '#f43f5e' },
       { name: '便签', url: '#notes', icon: '📝', color: '#f59e0b', isSpecial: true },
@@ -3670,9 +4369,16 @@
         } else if (action === 'delete' && contextMenuTarget) {
           const index = parseInt(contextMenuTarget.dataset.index);
           if (!isNaN(index)) {
-            dockItems.splice(index, 1);
-            saveData('dockItems', dockItems);
-            renderDockBar();
+            const item = dockItems[index];
+            // 保护"应用"按钮不可删除
+            if (item && item.action === 'apps') {
+              showToast('"应用"按钮无法删除', 'error');
+            } else {
+              dockItems.splice(index, 1);
+              saveData('dockItems', dockItems);
+              renderDockBar();
+              showToast('应用已删除');
+            }
           }
         }
         
@@ -4117,6 +4823,34 @@
       });
       
       document.getElementById('resetDataBtn').addEventListener('click', resetAllData);
+
+      // 关于弹窗
+      document.getElementById('openAboutBtn').addEventListener('click', openAboutModal);
+      document.getElementById('aboutCloseBtn').addEventListener('click', closeAboutModal);
+      document.getElementById('aboutModalOverlay').addEventListener('click', closeAboutModal);
+
+      // 初始化滚动效果
+      setupAboutScrollEffect();
+
+
+
+
+      // 微信群弹窗
+      document.getElementById('openWechatModal').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('wechatModalOverlay').classList.add('show');
+        document.getElementById('wechatModal').classList.add('show');
+      });
+
+      document.getElementById('wechatModalClose').addEventListener('click', () => {
+        document.getElementById('wechatModalOverlay').classList.remove('show');
+        document.getElementById('wechatModal').classList.remove('show');
+      });
+
+      document.getElementById('wechatModalOverlay').addEventListener('click', () => {
+        document.getElementById('wechatModalOverlay').classList.remove('show');
+        document.getElementById('wechatModal').classList.remove('show');
+      });
 
 
       // 任务删除快捷键
