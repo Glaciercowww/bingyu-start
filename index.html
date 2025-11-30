@@ -3692,7 +3692,7 @@
       const grid = document.getElementById('wallpaperGrid');
       grid.innerHTML = defaultWallpapers.map((url, index) => `
         <div class="wallpaper-item ${settings.currentWallpaper === url ? 'active' : ''}" data-url="${url}">
-          <img src="${url}&w=300" alt="壁纸 ${index + 1}">
+          <img src="${url.includes('unsplash') ? url + '&w=300' : url}" alt="壁纸 ${index + 1}">
           <div class="check-icon">✓</div>
         </div>
       `).join('');
