@@ -3322,20 +3322,18 @@
       'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920',
       'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920',
       'https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=1920',
-      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1920',
-      './assets/wallpaper/pic1.jpg',
-      './assets/wallpaper/pic2.jpg',
+      'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1920'
     ];
 
     const defaultHitokoto = [
-      '前途是光明的，道路是曲折',
+      '爱是人类最小剂量的共产主义',
       '人生天地之间，若白驹过隙，忽然而已',
       '不要谩骂以前的自己，他当初一个人站在雾里也很迷茫',
       '坚冰还盖着北海的时候，我看见了怒放的梅花',
       '遇事不怒，基本吃素，多多散步，劳逸适度',
       '何必用必然的死亡，困住豁然的一生',
       '爱是人类最小剂量的共产主义',
-      
+      '爱是人类最小剂量的共产主义'
     ];
 
     const defaultSites = [
@@ -3692,7 +3690,7 @@
       const grid = document.getElementById('wallpaperGrid');
       grid.innerHTML = defaultWallpapers.map((url, index) => `
         <div class="wallpaper-item ${settings.currentWallpaper === url ? 'active' : ''}" data-url="${url}">
-          <img src="${url.includes('unsplash') ? url + '&w=300' : url}" alt="壁纸 ${index + 1}">
+          <img src="${url}&w=300" alt="壁纸 ${index + 1}">
           <div class="check-icon">✓</div>
         </div>
       `).join('');
