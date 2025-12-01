@@ -3204,8 +3204,12 @@
 
   <script>
     // ==================== 应用版本 ====================
-    const APP_VERSION = '1.0.0';
+    const APP_VERSION = '1.0.1';
     const DATA_VERSION = 1; // 数据结构版本，用于未来迁移
+    
+    // ⭐ 默认站点版本号 - 每次修改 defaultSites 或 defaultDockItems 时递增这些版本号
+    const SITES_VERSION = 1.1;      // 修改 defaultSites 时递增
+    const DOCK_VERSION = 1.1;       // 修改 defaultDockItems 时递增
 
 
         // ==================== 更新日志数据 ====================
@@ -3233,7 +3237,6 @@
       {
         date: '2025-11-26',
         items: [
-          { type: 'new', text: '项目初始化，开始开发' },
         ]
       }
     ];
@@ -3339,27 +3342,31 @@
       
     ];
 
+    // ⭐ 每个默认站点必须有唯一的 id 和 isDefault: true
+    // ⭐ 修改这里后，记得递增上面的 SITES_VERSION
     const defaultSites = [
-      { name: '便签', url: '#notes', icon: '📝', color: '#f59e0b', isSpecial: true },
-      { name: '深色主题', url: '#theme', icon: '🌙', color: '#1e1b4b', isSpecial: true },
-      { name: '翻译', url: 'https://fanyi.youdao.com/#/TextTranslate', icon: '<img src="./assets/ico/1.svg" width="24" height="24">', color: '#06b6d4' },
-      { name: '豆包', url: 'https://www.doubao.com/chat/', icon: '<img src="./assets/ico/doubao2.png" width="36" height="36">',  color: 'linear-gradient(135deg, #10b981, #059669)' },
-      // { name: '图片', url: 'https://unsplash.com', icon: '🖼️', color: '#f43f5e' },
+      { id: 'default-notes', name: '便签', url: '#notes', icon: '📝', color: '#f59e0b', isSpecial: true, isDefault: true },
+      { id: 'default-theme', name: '深色主题', url: '#theme', icon: '🌙', color: '#1e1b4b', isSpecial: true, isDefault: true },
+      { id: 'default-translate', name: '翻译', url: 'https://fanyi.youdao.com/#/TextTranslate', icon: '<img src="./assets/ico/1.svg" width="24" height="24">', color: '#06b6d4', isDefault: true },
+      { id: 'default-doubao', name: '豆包', url: 'https://www.doubao.com/chat/', icon: '<img src="./assets/ico/doubao2.png" width="36" height="36">',  color: 'linear-gradient(135deg, #10b981, #059669)', isDefault: true },
+      // { id: 'default-image', name: '图片', url: 'https://unsplash.com', icon: '🖼️', color: '#f43f5e', isDefault: true },
       
-      // { name: '空投快传', url: 'https://airportal.cn', icon: '☁️', color: '#3b82f6' },
-      { name: 'QQ 邮箱', url: 'https://mail.qq.com', icon: '<img src="./assets/ico/qqemail.svg" width="48" height="48">', color: 'transparent' },
-      { name: '网易云音乐', url: 'https://music.163.com', icon: '<img src="./assets/ico/wangyiyun.svg" width="48" height="48">', color:'transparent' },
-      { name: 'bilibili', url: 'https://www.bilibili.com', icon: '<img src="./assets/ico/bilibili.svg" width="48" height="48">', color: 'transparent' },
-      { name: '抖音', url: 'https://www.douyin.com', icon: '<img src="./assets/ico/douyin.svg" width="48" height="48">', color: 'transparent' },  
+      // { id: 'default-airportal', name: '空投快传', url: 'https://airportal.cn', icon: '☁️', color: '#3b82f6', isDefault: true },
+      { id: 'default-qqmail', name: 'QQ 邮箱', url: 'https://mail.qq.com', icon: '<img src="./assets/ico/qqemail.svg" width="48" height="48">', color: 'transparent', isDefault: true },
+      { id: 'default-netease', name: '网易云音乐', url: 'https://music.163.com', icon: '<img src="./assets/ico/wangyiyun.svg" width="48" height="48">', color:'transparent', isDefault: true },
+      { id: 'default-bilibili', name: 'bilibili', url: 'https://www.bilibili.com', icon: '<img src="./assets/ico/bilibili.svg" width="48" height="48">', color: 'transparent', isDefault: true },
+      { id: 'default-douyin', name: '抖音', url: 'https://www.douyin.com', icon: '<img src="./assets/ico/douyin.svg" width="48" height="48">', color: 'transparent', isDefault: true },  
       
     ];
 
+    // ⭐ 每个默认Dock项必须有唯一的 id 和 isDefault: true
+    // ⭐ 修改这里后，记得递增上面的 DOCK_VERSION
     const defaultDockItems = [
-      { name: '应用', icon: 'apps', color: 'linear-gradient(135deg, #6366f1, #8b5cf6)', action: 'apps' },
-      { name: '便签', icon: '📝', color: 'linear-gradient(135deg, #f59e0b, #d97706)', action: 'notes' },
-      { name: '有道翻译', url: 'https://fanyi.youdao.com/#/TextTranslate', icon: '<img src="./assets/ico/1.svg" width="24" height="24">', color: 'linear-gradient(135deg, #06b6d4, #0891b2)' },
-      { name: '豆包', url: 'https://www.doubao.com/chat/', icon: '<img src="./assets/ico/doubao2.png" width="36" height="36">', color: 'linear-gradient(135deg, #10b981, #059669)' },
-      { name: '深色主题', icon: '🌙', color: 'linear-gradient(135deg, #1e1b4b, #312e81)', action: 'theme' },
+      { id: 'dock-apps', name: '应用', icon: 'apps', color: 'linear-gradient(135deg, #6366f1, #8b5cf6)', action: 'apps', isDefault: true },
+      { id: 'dock-notes', name: '便签', icon: '📝', color: 'linear-gradient(135deg, #f59e0b, #d97706)', action: 'notes', isDefault: true },
+      { id: 'dock-translate', name: '有道翻译', url: 'https://fanyi.youdao.com/#/TextTranslate', icon: '<img src="./assets/ico/1.svg" width="24" height="24">', color: 'linear-gradient(135deg, #06b6d4, #0891b2)', isDefault: true },
+      { id: 'dock-doubao', name: '豆包', url: 'https://www.doubao.com/chat/', icon: '<img src="./assets/ico/doubao2.png" width="36" height="36">', color: 'linear-gradient(135deg, #10b981, #059669)', isDefault: true },
+      { id: 'dock-theme', name: '深色主题', icon: '🌙', color: 'linear-gradient(135deg, #1e1b4b, #312e81)', action: 'theme', isDefault: true },
     ];
 
     // 加载存储的数据
@@ -3374,6 +3381,74 @@
 
     function saveData(key, data) {
       localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    // ==================== 数据迁移系统 ====================
+    /**
+     * 智能合并用户数据和默认数据
+     * - 保留用户自定义的项目（没有 isDefault 或 id 不以 'default-'/'dock-' 开头的）
+     * - 更新/添加新的默认项目
+     * - 移除被删除的旧默认项目
+     */
+    function migrateData() {
+      const storedSitesVersion = loadData('sitesVersion', 0);
+      const storedDockVersion = loadData('dockVersion', 0);
+      
+      // 迁移 Sites
+      if (storedSitesVersion < SITES_VERSION) {
+        console.log(`[迁移] Sites 版本从 ${storedSitesVersion} 升级到 ${SITES_VERSION}`);
+        const currentSites = loadData('sites', null);
+        
+        if (currentSites !== null) {
+          // 分离用户自定义站点和旧默认站点
+          const userSites = currentSites.filter(site => !site.isDefault && !site.id?.startsWith('default-'));
+          const oldDefaultIds = currentSites.filter(site => site.isDefault || site.id?.startsWith('default-')).map(s => s.id);
+          
+          // 合并：新默认站点 + 用户自定义站点
+          const mergedSites = [...defaultSites];
+          
+          // 把用户站点添加到末尾
+          userSites.forEach(userSite => {
+            // 确保用户站点有唯一ID（如果没有则生成）
+            if (!userSite.id) {
+              userSite.id = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            }
+            mergedSites.push(userSite);
+          });
+          
+          saveData('sites', mergedSites);
+          console.log(`[迁移] Sites 合并完成: ${defaultSites.length} 默认 + ${userSites.length} 用户自定义`);
+        }
+        
+        saveData('sitesVersion', SITES_VERSION);
+      }
+      
+      // 迁移 Dock
+      if (storedDockVersion < DOCK_VERSION) {
+        console.log(`[迁移] Dock 版本从 ${storedDockVersion} 升级到 ${DOCK_VERSION}`);
+        const currentDock = loadData('dockItems', null);
+        
+        if (currentDock !== null) {
+          // 分离用户自定义项和旧默认项
+          const userDockItems = currentDock.filter(item => !item.isDefault && !item.id?.startsWith('dock-'));
+          
+          // 合并：新默认Dock项 + 用户自定义项
+          const mergedDock = [...defaultDockItems];
+          
+          // 把用户项添加到末尾
+          userDockItems.forEach(userItem => {
+            if (!userItem.id) {
+              userItem.id = 'user-dock-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+            }
+            mergedDock.push(userItem);
+          });
+          
+          saveData('dockItems', mergedDock);
+          console.log(`[迁移] Dock 合并完成: ${defaultDockItems.length} 默认 + ${userDockItems.length} 用户自定义`);
+        }
+        
+        saveData('dockVersion', DOCK_VERSION);
+      }
     }
 
     // 显示 Toast 提示
@@ -3494,6 +3569,13 @@
 
     // ==================== 初始化 ====================
     function init() {
+      // ⭐ 首先执行数据迁移，确保用户数据与新版本兼容
+      migrateData();
+      
+      // 重新加载可能被迁移更新的数据
+      sites = loadData('sites', defaultSites);
+      dockItems = loadData('dockItems', defaultDockItems);
+      
       applySettings();
       updateClock();
       setInterval(updateClock, 1000);
@@ -5024,15 +5106,18 @@
         
         if (name && url) {
           const newSite = {
+            id: 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9), // ⭐ 添加唯一ID
             name,
             url: url.startsWith('http') ? url : `https://${url}`,
             icon,
-            color: `hsl(${Math.random() * 360}, 70%, 50%)`
+            color: `hsl(${Math.random() * 360}, 70%, 50%)`,
+            isDefault: false  // ⭐ 标记为用户自定义
           };
 
           if (target === 'dock') {
             dockItems.push({
               ...newSite,
+              id: 'user-dock-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9), // ⭐ Dock用不同前缀
               color: `linear-gradient(135deg, ${newSite.color}, ${newSite.color})`
             });
             saveData('dockItems', dockItems);
