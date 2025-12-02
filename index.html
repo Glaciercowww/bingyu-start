@@ -2579,7 +2579,158 @@
       height: 14px;
     }
 
+    /* ========== 打赏支持弹窗 ========== */
+    .support-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
 
+    .support-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .support-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.85);
+      width: 340px;
+      background: linear-gradient(145deg, #1a1d24 0%, #12141a 100%);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+      z-index: 3001;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
+    }
+
+    .support-modal.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .support-modal-header {
+      padding: 24px 24px 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .support-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .support-modal-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+    }
+
+    .support-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 12px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+    }
+
+    .support-modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .support-modal-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      padding: 0 12px;
+    }
+
+    .support-qr-container {
+      padding: 20px 32px 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .support-qr-wrapper {
+      background: #1a1a1a;
+      padding: 12px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .support-qr-wrapper img {
+      width: 200px;
+      height: 200px;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .support-modal-footer {
+      padding: 16px 24px 24px;
+      text-align: center;
+    }
+
+    .support-tip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: #f59e0b;
+    }
+
+    .support-tip svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .support-btn {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.1) 100%) !important;
+      border: 1px solid rgba(245, 158, 11, 0.3) !important;
+      color: #f59e0b !important;
+    }
+
+    .support-btn:hover {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.3) 0%, rgba(217, 119, 6, 0.2) 100%) !important;
+    }
 
 
 
@@ -3013,6 +3164,22 @@
             </button>
           </div>
         </div>
+
+         <!-- 支持我们 -->
+      <div class="settings-item">
+        <div class="settings-item-label">
+          支持我们
+          <div class="settings-item-desc">如果冰屿起始页对您有帮助，欢迎支持我们后面的开发和提出宝贵意见 ☕</div>
+        </div>
+        <button class="data-btn support-btn" id="openSupportModal">
+          <span></span> 打赏支持
+        </button>
+      </div>
+
+
+
+
+
         <div class="version-info" id="openAboutBtn" style="cursor: pointer; transition: color 0.2s;"> 版本: v1.0.0 · 点击查看更新日志 → </div>
       </div>
     </div>
@@ -3214,7 +3381,31 @@
   </div>
 
 
-
+  <!-- 打赏支持弹窗 -->
+  <div class="support-modal-overlay" id="supportModalOverlay"></div>
+  <div class="support-modal" id="supportModal">
+    <div class="support-modal-header">
+      <button class="support-modal-close" id="supportModalClose">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <div class="support-icon">❤️</div>
+      <div class="support-modal-title">支持我们</div>
+      <div class="support-modal-subtitle">如果觉得冰屿起始页对您工作、学习有帮助，小小的支持是荣幸之至</div>
+    </div>
+    <div class="support-qr-container">
+      <div class="support-qr-wrapper">
+        <img src="assets/images/support-qr.png" alt="打赏二维码" id="supportQrImage">
+      </div>
+    </div>
+    <div class="support-modal-footer">
+      <div class="support-tip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Glacier 的赞赏码
+      </div>
+    </div>
+  </div>
 
 
   <!-- 隐藏的文件输入 -->
@@ -5337,6 +5528,33 @@
         document.getElementById('wechatModalOverlay').classList.remove('show');
         document.getElementById('wechatModal').classList.remove('show');
       });
+
+
+      // 打赏支持弹窗
+      document.getElementById('openSupportModal').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('supportModalOverlay').classList.add('show');
+        document.getElementById('supportModal').classList.add('show');
+      });
+
+      document.getElementById('supportModalClose').addEventListener('click', () => {
+        document.getElementById('supportModalOverlay').classList.remove('show');
+        document.getElementById('supportModal').classList.remove('show');
+      });
+
+      document.getElementById('supportModalOverlay').addEventListener('click', () => {
+        document.getElementById('supportModalOverlay').classList.remove('show');
+        document.getElementById('supportModal').classList.remove('show');
+      });
+
+
+
+
+
+
+
+
+
 
 
       // 任务删除快捷键
