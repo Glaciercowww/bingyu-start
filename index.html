@@ -1495,7 +1495,15 @@
     }
 
 
+    /* 目录拖拽样式 */
+    .notes-folder.dragging {
+      opacity: 0.5;
+    }
 
+    .notes-folder.drag-over {
+      border-top: 2px solid var(--theme-color);
+      margin-top: 4px;
+    }
 
 
 
@@ -2725,6 +2733,136 @@
         width: 38px;
         height: 38px;
       }
+
+
+
+            /* 确认删除弹窗 */
+      .confirm-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 3000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease;
+      }
+
+      .confirm-modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .confirm-modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.9);
+        background: var(--bg-darker);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 24px;
+        z-index: 3001;
+        min-width: 300px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease;
+      }
+
+      .confirm-modal.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      .confirm-modal-content {
+        text-align: center;
+      }
+
+      .confirm-modal-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .confirm-modal-title {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+      }
+
+      .confirm-modal-text {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+      }
+
+      .confirm-modal-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .confirm-modal-btn {
+        padding: 10px 24px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+      }
+
+      .confirm-modal-btn.cancel {
+        background: rgba(255,255,255,0.1);
+        color: var(--text-secondary);
+      }
+
+      .confirm-modal-btn.cancel:hover {
+        background: rgba(255,255,255,0.15);
+      }
+
+      .confirm-modal-btn.confirm {
+        background: #ef4444;
+        color: white;
+      }
+
+      .confirm-modal-btn.confirm:hover {
+        background: #dc2626;
+      }
+
+      /* 便签弹窗顶部拖拽样式 */
+      .notes-modal-header {
+        cursor: move;
+        user-select: none;
+      }
+
+      .notes-modal.dragging {
+        transition: none !important;
+      }
+
+      /* 目录拖拽样式 */
+      .notes-folder-header.draggable {
+        cursor: grab;
+      }
+
+      .notes-folder-header.draggable:active {
+        cursor: grabbing;
+      }
+
+      .notes-folder-header.folder-drag-over {
+        border: 2px dashed var(--theme-color);
+        background: rgba(0, 212, 255, 0.1);
+      }
+
+      .notes-folder.dragging {
+        opacity: 0.5;
+      }
+
+
+
     }
   </style>
 </head>
@@ -3049,6 +3187,30 @@
     </div>
   </div>
 
+
+  <!-- 确认删除弹窗 -->
+  <div class="confirm-modal-overlay" id="confirmModalOverlay"></div>
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-modal-content">
+      <div class="confirm-modal-icon">⚠️</div>
+      <div class="confirm-modal-title" id="confirmModalTitle">确认删除</div>
+      <div class="confirm-modal-text" id="confirmModalText">确定要删除吗？此操作无法撤销。</div>
+      <div class="confirm-modal-actions">
+        <button class="confirm-modal-btn cancel" id="confirmCancelBtn">取消</button>
+        <button class="confirm-modal-btn confirm" id="confirmOkBtn">删除</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
   <!-- 添加站点弹窗 -->
   <div class="add-site-modal" id="addSiteModal">
     <h3>添加网站</h3>
@@ -3357,6 +3519,7 @@
       { id: 'default-bilibili', name: 'bilibili', url: 'https://www.bilibili.com', icon: '<img src="./assets/ico/bilibili.svg" width="48" height="48">', color: 'transparent', isDefault: true },
       { id: 'default-douyin', name: '抖音', url: 'https://www.douyin.com', icon: '<img src="./assets/ico/douyin.svg" width="48" height="48">', color: 'transparent', isDefault: true },  
       
+      
     ];
 
     // ⭐ 每个默认Dock项必须有唯一的 id 和 isDefault: true
@@ -3588,6 +3751,12 @@
       renderPinnedNotes();
       bindEvents();
       updateEngineUI();
+      // 确认弹窗事件
+      document.getElementById('confirmCancelBtn').addEventListener('click', hideConfirmModal);
+      document.getElementById('confirmModalOverlay').addEventListener('click', hideConfirmModal);
+      document.getElementById('confirmOkBtn').addEventListener('click', () => {
+        if (confirmCallback) confirmCallback();
+});
     }
 
     // ==================== 时钟 ====================
@@ -3749,7 +3918,22 @@
       container.classList.add('show');
     }
 
+    // ==================== 确认弹窗 ====================
+    let confirmCallback = null;
 
+    function showConfirmModal(title, text, callback) {
+      document.getElementById('confirmModalTitle').textContent = title;
+      document.getElementById('confirmModalText').textContent = text;
+      confirmCallback = callback;
+      document.getElementById('confirmModalOverlay').classList.add('show');
+      document.getElementById('confirmModal').classList.add('show');
+    }
+
+    function hideConfirmModal() {
+      document.getElementById('confirmModalOverlay').classList.remove('show');
+      document.getElementById('confirmModal').classList.remove('show');
+      confirmCallback = null;
+    }
 
 
 
@@ -4052,6 +4236,7 @@
       
       list.innerHTML = html;
       bindNotesDragEvents();
+      bindFolderDragEvents(); // ⭐ 添加这一行 目录可以拖拽排序
     }
 
     function bindNotesDragEvents() {
@@ -4121,6 +4306,85 @@
     //     `;
     //   }).join('');
     // }
+
+
+    // ==================== 目录拖拽排序功能 ====================
+    function bindFolderDragEvents() {
+      const folderElements = document.querySelectorAll('.notes-folder');
+      let draggedFolder = null;
+      
+      folderElements.forEach((folderEl, index) => {
+        const folderId = folderEl.dataset.folderId;
+        
+        // 默认目录不可拖拽
+        if (folderId === 'default') {
+          return;
+        }
+        
+        const header = folderEl.querySelector('.notes-folder-header');
+        header.style.cursor = 'move';
+        header.setAttribute('draggable', 'true');
+        
+        header.addEventListener('dragstart', (e) => {
+          if (e.target.closest('.delete-folder-btn') || e.target.closest('.add-note-to-folder-btn')) {
+            e.preventDefault();
+            return;
+          }
+          draggedFolder = folderEl;
+          folderEl.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        
+        header.addEventListener('dragend', () => {
+          folderEl.classList.remove('dragging');
+          document.querySelectorAll('.notes-folder').forEach(f => f.classList.remove('drag-over'));
+          draggedFolder = null;
+        });
+        
+        folderEl.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (draggedFolder && draggedFolder !== folderEl) {
+            // 不允许拖到默认目录之前
+            if (folderEl.dataset.folderId === 'default') {
+              return;
+            }
+            folderEl.classList.add('drag-over');
+          }
+        });
+        
+        folderEl.addEventListener('dragleave', () => {
+          folderEl.classList.remove('drag-over');
+        });
+        
+        folderEl.addEventListener('drop', (e) => {
+          e.preventDefault();
+          folderEl.classList.remove('drag-over');
+          
+          if (draggedFolder && draggedFolder !== folderEl) {
+            const draggedId = draggedFolder.dataset.folderId;
+            const targetId = folderEl.dataset.folderId;
+            
+            // 不允许拖到默认目录位置
+            if (targetId === 'default') {
+              return;
+            }
+            
+            const draggedIndex = folders.findIndex(f => f.id === draggedId);
+            const targetIndex = folders.findIndex(f => f.id === targetId);
+            
+            if (draggedIndex !== -1 && targetIndex !== -1) {
+              // 交换位置
+              const temp = folders[draggedIndex];
+              folders.splice(draggedIndex, 1);
+              folders.splice(targetIndex, 0, temp);
+              
+              saveData('folders', folders);
+              renderNotes();
+            }
+          }
+        });
+      });
+}
 
 
 
@@ -4286,8 +4550,15 @@
       selectNote(note.id);
     }
 
+
     function deleteNote() {
       if (!currentNoteId) return;
+      
+      // 添加确认弹窗
+      if (!confirm('确定要删除这个便签吗？此操作无法撤销。')) {
+        return;
+      }
+      
       notes = notes.filter(n => n.id !== currentNoteId);
       pinnedNoteIds = pinnedNoteIds.filter(id => id !== currentNoteId);
       saveData('notes', notes);
@@ -4296,6 +4567,8 @@
       selectNote(null);
       renderPinnedNotes();
     }
+
+
 
     function pinNote() {
       if (!currentNoteId) return;
@@ -4990,12 +5263,26 @@
           return;
         }
 
-        const deleteFolderBtn = e.target.closest('.delete-folder-btn');
         
+
+
+        const deleteFolderBtn = e.target.closest('.delete-folder-btn');
+
         if (deleteFolderBtn) {
           e.stopPropagation();
           const folderId = deleteFolderBtn.dataset.folderId;
-
+          
+          // 添加确认弹窗
+          const folder = folders.find(f => f.id === folderId);
+          const folderNotes = notes.filter(n => n.folderId === folderId);
+          const noteCount = folderNotes.length;
+          const confirmMessage = noteCount > 0 
+            ? `确定要删除目录"${folder.name}"吗？\n该目录中的 ${noteCount} 个便签将被移动到默认目录。` 
+            : `确定要删除目录"${folder.name}"吗？`;
+          
+          if (!confirm(confirmMessage)) {
+            return;
+          }
 
           notes.forEach(note => {
             if (note.folderId === folderId) {
@@ -5008,6 +5295,12 @@
           renderNotes();
           return;
         }
+
+
+
+
+
+
         
         const folderHeader = e.target.closest('.notes-folder-header');
         if (folderHeader && !e.target.closest('.delete-folder-btn')) {
@@ -5186,11 +5479,11 @@
       document.getElementById('openAboutBtn').addEventListener('click', openAboutModal);
       document.getElementById('aboutCloseBtn').addEventListener('click', closeAboutModal);
       document.getElementById('aboutModalOverlay').addEventListener('click', closeAboutModal);
-
+   
       // 初始化滚动效果
       setupAboutScrollEffect();
 
-
+      
 
 
       // 微信群弹窗
@@ -5222,6 +5515,8 @@
           }
         }
       });
+
+       
 
     }
 
