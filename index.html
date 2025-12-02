@@ -2736,130 +2736,6 @@
 
 
 
-            /* 确认删除弹窗 */
-      .confirm-modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        backdrop-filter: blur(4px);
-        z-index: 3000;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.2s ease;
-      }
-
-      .confirm-modal-overlay.show {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      .confirm-modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.9);
-        background: var(--bg-darker);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 24px;
-        z-index: 3001;
-        min-width: 300px;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.2s ease;
-      }
-
-      .confirm-modal.show {
-        opacity: 1;
-        visibility: visible;
-        transform: translate(-50%, -50%) scale(1);
-      }
-
-      .confirm-modal-content {
-        text-align: center;
-      }
-
-      .confirm-modal-icon {
-        font-size: 48px;
-        margin-bottom: 16px;
-      }
-
-      .confirm-modal-title {
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: var(--text-primary);
-        margin-bottom: 8px;
-      }
-
-      .confirm-modal-text {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        margin-bottom: 24px;
-      }
-
-      .confirm-modal-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-      }
-
-      .confirm-modal-btn {
-        padding: 10px 24px;
-        border-radius: 8px;
-        border: none;
-        cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-      }
-
-      .confirm-modal-btn.cancel {
-        background: rgba(255,255,255,0.1);
-        color: var(--text-secondary);
-      }
-
-      .confirm-modal-btn.cancel:hover {
-        background: rgba(255,255,255,0.15);
-      }
-
-      .confirm-modal-btn.confirm {
-        background: #ef4444;
-        color: white;
-      }
-
-      .confirm-modal-btn.confirm:hover {
-        background: #dc2626;
-      }
-
-      /* 便签弹窗顶部拖拽样式 */
-      .notes-modal-header {
-        cursor: move;
-        user-select: none;
-      }
-
-      .notes-modal.dragging {
-        transition: none !important;
-      }
-
-      /* 目录拖拽样式 */
-      .notes-folder-header.draggable {
-        cursor: grab;
-      }
-
-      .notes-folder-header.draggable:active {
-        cursor: grabbing;
-      }
-
-      .notes-folder-header.folder-drag-over {
-        border: 2px dashed var(--theme-color);
-        background: rgba(0, 212, 255, 0.1);
-      }
-
-      .notes-folder.dragging {
-        opacity: 0.5;
-      }
 
 
 
@@ -3186,25 +3062,6 @@
       </div>
     </div>
   </div>
-
-
-  <!-- 确认删除弹窗 -->
-  <div class="confirm-modal-overlay" id="confirmModalOverlay"></div>
-  <div class="confirm-modal" id="confirmModal">
-    <div class="confirm-modal-content">
-      <div class="confirm-modal-icon">⚠️</div>
-      <div class="confirm-modal-title" id="confirmModalTitle">确认删除</div>
-      <div class="confirm-modal-text" id="confirmModalText">确定要删除吗？此操作无法撤销。</div>
-      <div class="confirm-modal-actions">
-        <button class="confirm-modal-btn cancel" id="confirmCancelBtn">取消</button>
-        <button class="confirm-modal-btn confirm" id="confirmOkBtn">删除</button>
-      </div>
-    </div>
-  </div>
-
-
-
-
 
 
 
@@ -3751,12 +3608,7 @@
       renderPinnedNotes();
       bindEvents();
       updateEngineUI();
-      // 确认弹窗事件
-      document.getElementById('confirmCancelBtn').addEventListener('click', hideConfirmModal);
-      document.getElementById('confirmModalOverlay').addEventListener('click', hideConfirmModal);
-      document.getElementById('confirmOkBtn').addEventListener('click', () => {
-        if (confirmCallback) confirmCallback();
-});
+      
     }
 
     // ==================== 时钟 ====================
@@ -3916,23 +3768,6 @@
         </div>
       `;
       container.classList.add('show');
-    }
-
-    // ==================== 确认弹窗 ====================
-    let confirmCallback = null;
-
-    function showConfirmModal(title, text, callback) {
-      document.getElementById('confirmModalTitle').textContent = title;
-      document.getElementById('confirmModalText').textContent = text;
-      confirmCallback = callback;
-      document.getElementById('confirmModalOverlay').classList.add('show');
-      document.getElementById('confirmModal').classList.add('show');
-    }
-
-    function hideConfirmModal() {
-      document.getElementById('confirmModalOverlay').classList.remove('show');
-      document.getElementById('confirmModal').classList.remove('show');
-      confirmCallback = null;
     }
 
 
