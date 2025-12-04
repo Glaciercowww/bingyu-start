@@ -3418,8 +3418,8 @@
     const DATA_VERSION = 1; // 数据结构版本，用于未来迁移
     
     // ⭐ 默认站点版本号 - 每次修改 defaultSites 或 defaultDockItems 时递增这些版本号
-    const SITES_VERSION = 1.1;      // 修改 defaultSites 时递增
-    const DOCK_VERSION = 1.1;       // 修改 defaultDockItems 时递增
+    const SITES_VERSION = 1.2;      // 修改 defaultSites 时递增
+    const DOCK_VERSION = 1.2;       // 修改 defaultDockItems 时递增
 
 
         // ==================== 更新日志数据 ====================
@@ -3566,8 +3566,8 @@
       { id: 'default-netease', name: '网易云音乐', url: 'https://music.163.com', icon: '<img src="./assets/ico/wangyiyun.svg" width="48" height="48">', color:'transparent', isDefault: true },
       { id: 'default-bilibili', name: 'bilibili', url: 'https://www.bilibili.com', icon: '<img src="./assets/ico/bilibili.svg" width="48" height="48">', color: 'transparent', isDefault: true },
       { id: 'default-douyin', name: '抖音', url: 'https://www.douyin.com', icon: '<img src="./assets/ico/douyin.svg" width="48" height="48">', color: 'transparent', isDefault: true },  
-      
-      
+      { id: 'default-Google scholar', name: '谷歌学术', url: 'https://scholar.google.com', icon: '<img src="./assets/ico/Google scholar.svg" width="48" height="48">', color: 'transparent', isDefault: true },   
+      { id: 'default-github', name: 'Github', url: 'https://github.com', icon: '<img src="./assets/ico/github.svg" width="48" height="48">', color: 'transparent', isDefault: true }, 
     ];
 
     // ⭐ 每个默认Dock项必须有唯一的 id 和 isDefault: true
@@ -3576,7 +3576,11 @@
       { id: 'dock-apps', name: '应用', icon: 'apps', color: 'linear-gradient(135deg, #6366f1, #8b5cf6)', action: 'apps', isDefault: true },
       { id: 'dock-notes', name: '便签', icon: '📝', color: 'linear-gradient(135deg, #f59e0b, #d97706)', action: 'notes', isDefault: true },
       { id: 'dock-translate', name: '有道翻译', url: 'https://fanyi.youdao.com/#/TextTranslate', icon: '<img src="./assets/ico/1.svg" width="24" height="24">', color: 'linear-gradient(135deg, #06b6d4, #0891b2)', isDefault: true },
+      { id: 'default-Google scholar', name: '谷歌学术', url: 'https://scholar.google.com', icon: '<img src="./assets/ico/Google scholar.svg" width="48" height="48">', color: 'transparent', isDefault: true },  
+      { id: 'default-github', name: 'Github', url: 'https://github.com', icon: '<img src="./assets/ico/github.svg" width="48" height="48">', color: 'transparent', isDefault: true },  
+      
       { id: 'dock-doubao', name: '豆包', url: 'https://www.doubao.com/chat/', icon: '<img src="./assets/ico/doubao2.png" width="36" height="36">', color: 'linear-gradient(135deg, #10b981, #059669)', isDefault: true },
+      
       { id: 'dock-theme', name: '深色主题', icon: '🌙', color: 'linear-gradient(135deg, #1e1b4b, #312e81)', action: 'theme', isDefault: true },
     ];
 
