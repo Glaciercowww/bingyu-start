@@ -24,10 +24,15 @@
             text-align: center;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .header h1 {
-            font-size: 28px;
+        .header-left h1 {
+            font-size: 24px;
             font-weight: 600;
             background: linear-gradient(90deg, #00d9ff, #00ff88);
             -webkit-background-clip: text;
@@ -35,10 +40,77 @@
             background-clip: text;
         }
 
-        .header p {
+        .header-left p {
             color: #888;
-            margin-top: 8px;
-            font-size: 14px;
+            margin-top: 5px;
+            font-size: 13px;
+        }
+
+        /* 用户状态显示 */
+        .user-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quota-display {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .quota-display .icon {
+            font-size: 20px;
+        }
+
+        .quota-display .info {
+            text-align: left;
+        }
+
+        .quota-display .label {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .quota-display .value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #00ff88;
+        }
+
+        .quota-display .value.warning {
+            color: #ffaa00;
+        }
+
+        .quota-display .value.danger {
+            color: #ff4444;
+        }
+
+        .quota-display .value.vip {
+            color: #ffd700;
+        }
+
+        .btn-buy {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            border: none;
+            border-radius: 8px;
+            color: #1a1a2e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-buy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255,215,0,0.4);
         }
 
         .container {
@@ -396,20 +468,6 @@
             display: none !important;
         }
 
-        /* 响应式 */
-        @media (max-width: 1200px) {
-            .container {
-                flex-direction: column;
-            }
-            .control-panel {
-                width: 100%;
-                max-height: none;
-            }
-            .image-comparison {
-                flex-direction: column;
-            }
-        }
-
         /* 复选框样式 */
         .checkbox-control {
             display: flex;
@@ -477,12 +535,294 @@
             transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
+
+        .toast.error {
+            background: rgba(255,68,68,0.9);
+            color: #fff;
+        }
+
+        /* ==================== 付费弹窗样式 ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: linear-gradient(135deg, #1e1e3f 0%, #2a2a5a 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 450px;
+            width: 90%;
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.show .modal {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: #888;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,68,68,0.3);
+            color: #ff4444;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .modal-header p {
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* 套餐选择 */
+        .pricing-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .pricing-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pricing-card:hover {
+            border-color: #00d9ff;
+            background: rgba(0,217,255,0.1);
+        }
+
+        .pricing-card.selected {
+            border-color: #ffd700;
+            background: rgba(255,215,0,0.1);
+        }
+
+        .pricing-card.popular {
+            position: relative;
+        }
+
+        .pricing-card.popular::before {
+            content: '推荐';
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .pricing-info h4 {
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .pricing-info p {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .pricing-price {
+            text-align: right;
+        }
+
+        .pricing-price .amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .pricing-price .unit {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* 二维码区域 */
+        .qr-section {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .qr-section img {
+            width: 180px;
+            height: 180px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .qr-section p {
+            font-size: 13px;
+            color: #00d9ff;
+        }
+
+        .qr-section .tip {
+            font-size: 11px;
+            color: #888;
+            margin-top: 8px;
+        }
+
+        /* 激活码输入 */
+        .activation-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .activation-section h4 {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .activation-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .activation-input-group input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .activation-input-group input:focus {
+            border-color: #00d9ff;
+        }
+
+        .activation-input-group input::placeholder {
+            color: #666;
+        }
+
+        .activation-input-group button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            border: none;
+            border-radius: 8px;
+            color: #1a1a2e;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .activation-input-group button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* 联系方式 */
+        .contact-info {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .contact-info a {
+            color: #00d9ff;
+            text-decoration: none;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+            .control-panel {
+                width: 100%;
+                max-height: none;
+            }
+            .image-comparison {
+                flex-direction: column;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🔬 医学图像处理工具</h1>
-        <p>支持病理切片、显微镜图像等医学图像的清晰化处理 | 实时预览 | 高质量导出</p>
+        <div class="header-left">
+            <h1>🔬 医学图像处理工具</h1>
+            <p>支持病理切片、显微镜图像等医学图像的清晰化处理</p>
+        </div>
+        <div class="user-status">
+            <div class="quota-display">
+                <span class="icon">🎫</span>
+                <div class="info">
+                    <div class="label">剩余导出次数</div>
+                    <div class="value" id="quotaValue">3</div>
+                </div>
+            </div>
+            <button class="btn-buy" onclick="showPaymentModal()">
+                <span>👑</span> 购买次数
+            </button>
+        </div>
     </div>
 
     <div class="container">
@@ -658,18 +998,275 @@
         </div>
     </div>
 
+    <!-- 付费弹窗 -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal">
+            <button class="modal-close" onclick="hidePaymentModal()">×</button>
+            
+            <div class="modal-header">
+                <h2>👑 购买导出次数</h2>
+                <p>支持医学图像处理工具的持续开发</p>
+            </div>
+
+            <div class="pricing-options">
+                <div class="pricing-card" onclick="selectPricing(this, '10')" data-type="10">
+                    <div class="pricing-info">
+                        <h4>🎫 基础包</h4>
+                        <p>10次导出资格</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="amount">¥1</span>
+                        <span class="unit">/10次</span>
+                    </div>
+                </div>
+
+                <div class="pricing-card popular" onclick="selectPricing(this, '50')" data-type="50">
+                    <div class="pricing-info">
+                        <h4>🎁 超值包</h4>
+                        <p>50次导出资格</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="amount">¥3.8</span>
+                        <span class="unit">/50次</span>
+                    </div>
+                </div>
+
+                <div class="pricing-card" onclick="selectPricing(this, 'vip')" data-type="vip">
+                    <div class="pricing-info">
+                        <h4>👑 永久会员</h4>
+                        <p>无限导出，永久有效</p>
+                    </div>
+                    <div class="pricing-price">
+                        <span class="amount">¥18.8</span>
+                        <span class="unit">/永久</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="qr-section">
+                <!-- 这里替换成你的二维码路径 -->
+                <img src="assets/images/support-qr.png" alt="付款二维码" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22><rect fill=%22%23fff%22 width=%22180%22 height=%22180%22/><text x=%2290%22 y=%2290%22 text-anchor=%22middle%22 fill=%22%23999%22>二维码</text></svg>'">
+                <p>微信扫码支付</p>
+                <div class="tip">付款后请备注您选择的套餐类型</div>
+            </div>
+
+            <div class="activation-section">
+                <h4>已付款？输入激活码</h4>
+                <div class="activation-input-group">
+                    <input type="text" id="activationCode" placeholder="输入激活码">
+                    <button onclick="activateCode()">激活</button>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                付款后请联系获取激活码：<a href="mailto:your@email.com">your@email.com</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast通知 -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // 全局变量
+        // ==================== 付费系统配置 ====================
+        const CONFIG = {
+            // 免费试用次数
+            FREE_QUOTA: 3,
+            // 预设激活码（你可以随时修改这些）
+            // 格式: { 激活码: { type: '类型', quota: 次数 } }
+            ACTIVATION_CODES: {
+                // 10次包激活码
+                'MED10-AAAA-1111': { type: '10', quota: 10, used: false },
+                'MED10-BBBB-2222': { type: '10', quota: 10, used: false },
+                'MED10-CCCC-3333': { type: '10', quota: 10, used: false },
+                'MED10-DDDD-4444': { type: '10', quota: 10, used: false },
+                'MED10-EEEE-5555': { type: '10', quota: 10, used: false },
+                // 50次包激活码
+                'MED50-FFFF-6666': { type: '50', quota: 50, used: false },
+                'MED50-GGGG-7777': { type: '50', quota: 50, used: false },
+                'MED50-HHHH-8888': { type: '50', quota: 50, used: false },
+                // 永久会员激活码
+                'MEDVIP-XXXX-9999': { type: 'vip', quota: -1, used: false },
+                'MEDVIP-YYYY-8888': { type: 'vip', quota: -1, used: false },
+                'MEDVIP-ZZZZ-7777': { type: 'vip', quota: -1, used: false },
+            }
+        };
+
+        // ==================== 付费系统核心 ====================
+        class QuotaManager {
+            constructor() {
+                this.storageKey = 'medical_image_tool_quota';
+                this.usedCodesKey = 'medical_image_tool_used_codes';
+                this.init();
+            }
+
+            init() {
+                const data = this.getData();
+                if (!data) {
+                    this.setData({
+                        quota: CONFIG.FREE_QUOTA,
+                        isVip: false,
+                        usedCodes: []
+                    });
+                }
+                this.updateDisplay();
+            }
+
+            getData() {
+                const raw = localStorage.getItem(this.storageKey);
+                return raw ? JSON.parse(raw) : null;
+            }
+
+            setData(data) {
+                localStorage.setItem(this.storageKey, JSON.stringify(data));
+            }
+
+            getQuota() {
+                const data = this.getData();
+                return data.quota;
+            }
+
+            isVip() {
+                const data = this.getData();
+                return data.isVip;
+            }
+
+            canExport() {
+                return this.isVip() || this.getQuota() > 0;
+            }
+
+            useQuota() {
+                if (this.isVip()) return true;
+                
+                const data = this.getData();
+                if (data.quota > 0) {
+                    data.quota--;
+                    this.setData(data);
+                    this.updateDisplay();
+                    return true;
+                }
+                return false;
+            }
+
+            addQuota(amount) {
+                const data = this.getData();
+                data.quota += amount;
+                this.setData(data);
+                this.updateDisplay();
+            }
+
+            setVip() {
+                const data = this.getData();
+                data.isVip = true;
+                data.quota = -1;
+                this.setData(data);
+                this.updateDisplay();
+            }
+
+            activateCode(code) {
+                const upperCode = code.toUpperCase().trim();
+                const data = this.getData();
+
+                // 检查是否已使用
+                if (data.usedCodes && data.usedCodes.includes(upperCode)) {
+                    return { success: false, message: '该激活码已被使用' };
+                }
+
+                // 检查激活码是否有效
+                const codeData = CONFIG.ACTIVATION_CODES[upperCode];
+                if (!codeData) {
+                    return { success: false, message: '无效的激活码' };
+                }
+
+                // 激活
+                if (codeData.type === 'vip') {
+                    this.setVip();
+                } else {
+                    this.addQuota(codeData.quota);
+                }
+
+                // 记录已使用
+                if (!data.usedCodes) data.usedCodes = [];
+                data.usedCodes.push(upperCode);
+                this.setData(data);
+
+                const typeNames = {
+                    '10': '基础包(10次)',
+                    '50': '超值包(50次)',
+                    'vip': '永久会员'
+                };
+
+                return { 
+                    success: true, 
+                    message: `激活成功！已获得${typeNames[codeData.type]}` 
+                };
+            }
+
+            updateDisplay() {
+                const quotaEl = document.getElementById('quotaValue');
+                if (!quotaEl) return;
+
+                if (this.isVip()) {
+                    quotaEl.textContent = '∞ VIP';
+                    quotaEl.className = 'value vip';
+                } else {
+                    const quota = this.getQuota();
+                    quotaEl.textContent = quota;
+                    if (quota <= 0) {
+                        quotaEl.className = 'value danger';
+                    } else if (quota <= 3) {
+                        quotaEl.className = 'value warning';
+                    } else {
+                        quotaEl.className = 'value';
+                    }
+                }
+            }
+        }
+
+        // 初始化配额管理器
+        const quotaManager = new QuotaManager();
+
+        // ==================== 付费弹窗 ====================
+        let selectedPricing = '10';
+
+        function showPaymentModal() {
+            document.getElementById('paymentModal').classList.add('show');
+        }
+
+        function hidePaymentModal() {
+            document.getElementById('paymentModal').classList.remove('show');
+        }
+
+        function selectPricing(element, type) {
+            document.querySelectorAll('.pricing-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPricing = type;
+        }
+
+        function activateCode() {
+            const code = document.getElementById('activationCode').value;
+            if (!code) {
+                showToast('请输入激活码', 'error');
+                return;
+            }
+
+            const result = quotaManager.activateCode(code);
+            if (result.success) {
+                showToast(result.message);
+                hidePaymentModal();
+                document.getElementById('activationCode').value = '';
+            } else {
+                showToast(result.message, 'error');
+            }
+        }
+
+        // ==================== 图像处理核心 ====================
         let originalImage = null;
         let originalImageData = null;
         let currentFormat = 'png';
         let isProcessing = false;
         let processTimeout = null;
 
-        // DOM元素
         const fileInput = document.getElementById('fileInput');
         const uploadArea = document.getElementById('uploadArea');
         const originalImg = document.getElementById('originalImage');
@@ -678,7 +1275,6 @@
 
         // 初始化事件监听
         document.addEventListener('DOMContentLoaded', () => {
-            // 上传区域事件
             uploadArea.addEventListener('click', () => fileInput.click());
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
@@ -702,7 +1298,6 @@
                 }
             });
 
-            // 滑块事件
             const sliders = ['brightness', 'contrast', 'saturation', 'gamma', 'sharpen', 'clahe', 'denoise', 'quality'];
             sliders.forEach(id => {
                 const slider = document.getElementById(id);
@@ -711,42 +1306,40 @@
                     scheduleProcess();
                 });
             });
+
+            // 点击弹窗外部关闭
+            document.getElementById('paymentModal').addEventListener('click', (e) => {
+                if (e.target.id === 'paymentModal') {
+                    hidePaymentModal();
+                }
+            });
         });
 
-        // 加载图像
         function loadImage(file) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 originalImage = new Image();
                 originalImage.onload = () => {
-                    // 显示原图
                     originalImg.src = e.target.result;
                     originalImg.classList.remove('hidden');
                     document.querySelector('#originalContainer .placeholder').classList.add('hidden');
 
-                    // 设置Canvas尺寸
                     previewCanvas.width = originalImage.width;
                     previewCanvas.height = originalImage.height;
 
-                    // 获取原始图像数据
                     ctx.drawImage(originalImage, 0, 0);
                     originalImageData = ctx.getImageData(0, 0, previewCanvas.width, previewCanvas.height);
 
-                    // 显示Canvas
                     previewCanvas.classList.remove('hidden');
                     document.querySelector('#previewContainer .placeholder').classList.add('hidden');
 
-                    // 显示信息
                     document.getElementById('originalInfo').classList.remove('hidden');
                     document.getElementById('previewInfo').classList.remove('hidden');
                     document.getElementById('originalSize').textContent = formatFileSize(file.size);
                     document.getElementById('originalDimensions').textContent = `${originalImage.width} × ${originalImage.height}`;
                     document.getElementById('previewDimensions').textContent = `${originalImage.width} × ${originalImage.height}`;
 
-                    // 启用下载按钮
                     document.getElementById('downloadBtn').disabled = false;
-
-                    // 处理图像
                     processImage();
                     showToast('图像加载成功！');
                 };
@@ -755,7 +1348,6 @@
             reader.readAsDataURL(file);
         }
 
-        // 更新滑块显示值
         function updateSliderValue(id) {
             const slider = document.getElementById(id);
             const valueSpan = document.getElementById(id + 'Value');
@@ -773,17 +1365,11 @@
             }
         }
 
-        // 防抖处理
         function scheduleProcess() {
-            if (processTimeout) {
-                clearTimeout(processTimeout);
-            }
-            processTimeout = setTimeout(() => {
-                processImage();
-            }, 50);
+            if (processTimeout) clearTimeout(processTimeout);
+            processTimeout = setTimeout(() => processImage(), 50);
         }
 
-        // 主处理函数
         function processImage() {
             if (!originalImageData || isProcessing) return;
 
@@ -791,9 +1377,7 @@
             const startTime = performance.now();
             document.getElementById('loadingOverlay').classList.remove('hidden');
 
-            // 使用requestAnimationFrame确保UI更新
             requestAnimationFrame(() => {
-                // 获取参数
                 const brightness = parseInt(document.getElementById('brightness').value);
                 const contrast = parseInt(document.getElementById('contrast').value);
                 const saturation = parseInt(document.getElementById('saturation').value);
@@ -802,32 +1386,19 @@
                 const clahe = parseInt(document.getElementById('clahe').value) / 100;
                 const denoise = parseInt(document.getElementById('denoise').value) / 100;
 
-                // 复制原始数据
                 let imageData = new ImageData(
                     new Uint8ClampedArray(originalImageData.data),
                     originalImageData.width,
                     originalImageData.height
                 );
 
-                // 应用处理
-                if (denoise > 0) {
-                    imageData = applyDenoise(imageData, denoise);
-                }
-
-                if (clahe > 0) {
-                    imageData = applyCLAHE(imageData, clahe);
-                }
-
+                if (denoise > 0) imageData = applyDenoise(imageData, denoise);
+                if (clahe > 0) imageData = applyCLAHE(imageData, clahe);
                 imageData = applyBasicAdjustments(imageData, brightness, contrast, saturation, gamma);
+                if (sharpen > 0) imageData = applySharpen(imageData, sharpen);
 
-                if (sharpen > 0) {
-                    imageData = applySharpen(imageData, sharpen);
-                }
-
-                // 绘制结果
                 ctx.putImageData(imageData, 0, 0);
 
-                // 更新处理时间
                 const endTime = performance.now();
                 document.getElementById('processingTime').textContent = `处理: ${(endTime - startTime).toFixed(0)}ms`;
 
@@ -836,34 +1407,24 @@
             });
         }
 
-        // 基础调整：亮度、对比度、饱和度、伽马
         function applyBasicAdjustments(imageData, brightness, contrast, saturation, gamma) {
             const data = imageData.data;
             const contrastFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
 
             for (let i = 0; i < data.length; i += 4) {
-                let r = data[i];
-                let g = data[i + 1];
-                let b = data[i + 2];
+                let r = data[i], g = data[i + 1], b = data[i + 2];
 
-                // 伽马校正
                 if (gamma !== 1) {
                     r = 255 * Math.pow(r / 255, 1 / gamma);
                     g = 255 * Math.pow(g / 255, 1 / gamma);
                     b = 255 * Math.pow(b / 255, 1 / gamma);
                 }
 
-                // 亮度
-                r += brightness;
-                g += brightness;
-                b += brightness;
-
-                // 对比度
+                r += brightness; g += brightness; b += brightness;
                 r = contrastFactor * (r - 128) + 128;
                 g = contrastFactor * (g - 128) + 128;
                 b = contrastFactor * (b - 128) + 128;
 
-                // 饱和度
                 if (saturation !== 0) {
                     const gray = 0.2989 * r + 0.587 * g + 0.114 * b;
                     const satFactor = 1 + saturation / 100;
@@ -876,23 +1437,14 @@
                 data[i + 1] = Math.max(0, Math.min(255, g));
                 data[i + 2] = Math.max(0, Math.min(255, b));
             }
-
             return imageData;
         }
 
-        // 锐化 (Unsharp Masking)
         function applySharpen(imageData, amount) {
-            const width = imageData.width;
-            const height = imageData.height;
+            const width = imageData.width, height = imageData.height;
             const data = imageData.data;
             const output = new Uint8ClampedArray(data);
-
-            // 简化的Unsharp Masking
-            const kernel = [
-                0, -1, 0,
-                -1, 5, -1,
-                0, -1, 0
-            ];
+            const kernel = [0, -1, 0, -1, 5, -1, 0, -1, 0];
 
             for (let y = 1; y < height - 1; y++) {
                 for (let x = 1; x < width - 1; x++) {
@@ -905,35 +1457,22 @@
                             }
                         }
                         const idx = (y * width + x) * 4 + c;
-                        output[idx] = Math.max(0, Math.min(255, 
-                            data[idx] + (sum - data[idx]) * amount
-                        ));
+                        output[idx] = Math.max(0, Math.min(255, data[idx] + (sum - data[idx]) * amount));
                     }
                 }
             }
-
             return new ImageData(output, width, height);
         }
 
-        // 简化的CLAHE (在亮度通道应用)
         function applyCLAHE(imageData, strength) {
-            const width = imageData.width;
-            const height = imageData.height;
             const data = imageData.data;
-
-            // 转换到HSL并增强L通道
             for (let i = 0; i < data.length; i += 4) {
-                const r = data[i] / 255;
-                const g = data[i + 1] / 255;
-                const b = data[i + 2] / 255;
-
-                const max = Math.max(r, g, b);
-                const min = Math.min(r, g, b);
+                const r = data[i] / 255, g = data[i + 1] / 255, b = data[i + 2] / 255;
+                const max = Math.max(r, g, b), min = Math.min(r, g, b);
                 let h, s, l = (max + min) / 2;
 
-                if (max === min) {
-                    h = s = 0;
-                } else {
+                if (max === min) { h = s = 0; }
+                else {
                     const d = max - min;
                     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
                     switch (max) {
@@ -943,23 +1482,15 @@
                     }
                 }
 
-                // 增强亮度通道（类似CLAHE效果）
                 const midPoint = 0.5;
-                if (l < midPoint) {
-                    l = l + (midPoint - l) * strength * 0.5;
-                } else {
-                    l = l - (l - midPoint) * strength * 0.3;
-                }
+                l = l < midPoint ? l + (midPoint - l) * strength * 0.5 : l - (l - midPoint) * strength * 0.3;
                 l = Math.max(0, Math.min(1, l));
 
-                // 转回RGB
                 let r2, g2, b2;
-                if (s === 0) {
-                    r2 = g2 = b2 = l;
-                } else {
+                if (s === 0) { r2 = g2 = b2 = l; }
+                else {
                     const hue2rgb = (p, q, t) => {
-                        if (t < 0) t += 1;
-                        if (t > 1) t -= 1;
+                        if (t < 0) t += 1; if (t > 1) t -= 1;
                         if (t < 1/6) return p + (q - p) * 6 * t;
                         if (t < 1/2) return q;
                         if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
@@ -976,14 +1507,11 @@
                 data[i + 1] = Math.round(g2 * 255);
                 data[i + 2] = Math.round(b2 * 255);
             }
-
             return imageData;
         }
 
-        // 去噪 (简单均值滤波)
         function applyDenoise(imageData, strength) {
-            const width = imageData.width;
-            const height = imageData.height;
+            const width = imageData.width, height = imageData.height;
             const data = imageData.data;
             const output = new Uint8ClampedArray(data);
             const radius = Math.ceil(strength * 2);
@@ -991,26 +1519,21 @@
             for (let y = radius; y < height - radius; y++) {
                 for (let x = radius; x < width - radius; x++) {
                     for (let c = 0; c < 3; c++) {
-                        let sum = 0;
-                        let count = 0;
+                        let sum = 0, count = 0;
                         for (let ky = -radius; ky <= radius; ky++) {
                             for (let kx = -radius; kx <= radius; kx++) {
-                                const idx = ((y + ky) * width + (x + kx)) * 4 + c;
-                                sum += data[idx];
+                                sum += data[((y + ky) * width + (x + kx)) * 4 + c];
                                 count++;
                             }
                         }
                         const idx = (y * width + x) * 4 + c;
-                        const avg = sum / count;
-                        output[idx] = data[idx] * (1 - strength) + avg * strength;
+                        output[idx] = data[idx] * (1 - strength) + (sum / count) * strength;
                     }
                 }
             }
-
             return new ImageData(output, width, height);
         }
 
-        // 预设方案
         function applyPreset(preset) {
             const presets = {
                 original: { brightness: 0, contrast: 0, saturation: 0, gamma: 100, sharpen: 0, clahe: 0, denoise: 0 },
@@ -1024,7 +1547,6 @@
             const p = presets[preset];
             if (!p) return;
 
-            // 更新滑块
             Object.keys(p).forEach(key => {
                 const slider = document.getElementById(key);
                 if (slider) {
@@ -1033,7 +1555,6 @@
                 }
             });
 
-            // 更新预设按钮状态
             document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
@@ -1041,35 +1562,38 @@
             showToast(`已应用预设：${event.target.textContent}`);
         }
 
-        // 格式选择
         function selectFormat(format) {
             currentFormat = format;
             document.querySelectorAll('.format-option').forEach(el => el.classList.remove('active'));
             document.querySelector(`[data-format="${format}"]`).classList.add('active');
-
-            // PNG不需要质量设置
             document.getElementById('qualityControl').style.display = format === 'png' ? 'none' : 'block';
         }
 
-        // 下载图像
+        // ==================== 导出（带配额检查） ====================
         function downloadImage() {
             if (!previewCanvas.width) return;
 
+            // 检查配额
+            if (!quotaManager.canExport()) {
+                showPaymentModal();
+                showToast('导出次数已用完，请购买更多次数', 'error');
+                return;
+            }
+
+            // 扣除配额
+            if (!quotaManager.useQuota()) {
+                showPaymentModal();
+                return;
+            }
+
+            // 执行导出
             const quality = parseInt(document.getElementById('quality').value) / 100;
             let mimeType, extension;
 
             switch(currentFormat) {
-                case 'jpeg':
-                    mimeType = 'image/jpeg';
-                    extension = 'jpg';
-                    break;
-                case 'webp':
-                    mimeType = 'image/webp';
-                    extension = 'webp';
-                    break;
-                default:
-                    mimeType = 'image/png';
-                    extension = 'png';
+                case 'jpeg': mimeType = 'image/jpeg'; extension = 'jpg'; break;
+                case 'webp': mimeType = 'image/webp'; extension = 'webp'; break;
+                default: mimeType = 'image/png'; extension = 'png';
             }
 
             const link = document.createElement('a');
@@ -1077,26 +1601,25 @@
             link.href = previewCanvas.toDataURL(mimeType, quality);
             link.click();
 
-            showToast('图像已开始下载！');
+            const remaining = quotaManager.isVip() ? '∞' : quotaManager.getQuota();
+            showToast(`图像已下载！剩余次数: ${remaining}`);
         }
 
-        // 重置所有
         function resetAll() {
             applyPreset('original');
             showToast('已重置所有参数');
         }
 
-        // 工具函数
         function formatFileSize(bytes) {
             if (bytes < 1024) return bytes + ' B';
             if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
             return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
         }
 
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
-            toast.classList.add('show');
+            toast.className = 'toast show' + (type === 'error' ? ' error' : '');
             setTimeout(() => toast.classList.remove('show'), 2500);
         }
     </script>
