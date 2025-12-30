@@ -5,23 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>医学图像处理工具</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             min-height: 100vh;
             color: #fff;
         }
-
         .header {
             background: rgba(255,255,255,0.1);
             padding: 20px;
-            text-align: center;
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
@@ -30,29 +23,14 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-
         .header-left h1 {
             font-size: 24px;
-            font-weight: 600;
             background: linear-gradient(90deg, #00d9ff, #00ff88);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
-
-        .header-left p {
-            color: #888;
-            margin-top: 5px;
-            font-size: 13px;
-        }
-
-        /* 用户状态显示 */
-        .user-status {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
+        .header-left p { color: #888; margin-top: 5px; font-size: 13px; }
+        .user-status { display: flex; align-items: center; gap: 15px; }
         .quota-display {
             background: rgba(255,255,255,0.1);
             padding: 10px 20px;
@@ -62,38 +40,13 @@
             gap: 10px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .quota-display .icon {
-            font-size: 20px;
-        }
-
-        .quota-display .info {
-            text-align: left;
-        }
-
-        .quota-display .label {
-            font-size: 11px;
-            color: #888;
-        }
-
-        .quota-display .value {
-            font-size: 16px;
-            font-weight: 600;
-            color: #00ff88;
-        }
-
-        .quota-display .value.warning {
-            color: #ffaa00;
-        }
-
-        .quota-display .value.danger {
-            color: #ff4444;
-        }
-
-        .quota-display .value.vip {
-            color: #ffd700;
-        }
-
+        .quota-display .icon { font-size: 20px; }
+        .quota-display .info { text-align: left; }
+        .quota-display .label { font-size: 11px; color: #888; }
+        .quota-display .value { font-size: 16px; font-weight: 600; color: #00ff88; }
+        .quota-display .value.warning { color: #ffaa00; }
+        .quota-display .value.danger { color: #ff4444; }
+        .quota-display .value.vip { color: #ffd700; }
         .btn-buy {
             padding: 10px 20px;
             background: linear-gradient(135deg, #ffd700, #ffaa00);
@@ -107,12 +60,7 @@
             align-items: center;
             gap: 6px;
         }
-
-        .btn-buy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(255,215,0,0.4);
-        }
-
+        .btn-buy:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(255,215,0,0.4); }
         .container {
             display: flex;
             max-width: 1600px;
@@ -120,8 +68,6 @@
             padding: 20px;
             gap: 20px;
         }
-
-        /* 左侧控制面板 */
         .control-panel {
             width: 320px;
             flex-shrink: 0;
@@ -133,20 +79,9 @@
             max-height: calc(100vh - 140px);
             overflow-y: auto;
         }
-
-        .control-panel::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .control-panel::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.2);
-            border-radius: 3px;
-        }
-
-        .panel-section {
-            margin-bottom: 24px;
-        }
-
+        .control-panel::-webkit-scrollbar { width: 6px; }
+        .control-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 3px; }
+        .panel-section { margin-bottom: 24px; }
         .panel-section h3 {
             font-size: 14px;
             color: #00d9ff;
@@ -156,7 +91,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
         .upload-area {
             border: 2px dashed rgba(255,255,255,0.3);
             border-radius: 12px;
@@ -166,49 +100,14 @@
             transition: all 0.3s ease;
             background: rgba(255,255,255,0.02);
         }
-
-        .upload-area:hover {
-            border-color: #00d9ff;
-            background: rgba(0,217,255,0.05);
-        }
-
-        .upload-area.dragover {
-            border-color: #00ff88;
-            background: rgba(0,255,136,0.1);
-        }
-
-        .upload-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
-
-        .upload-area p {
-            color: #aaa;
-            font-size: 14px;
-        }
-
-        .upload-area span {
-            color: #00d9ff;
-            text-decoration: underline;
-        }
-
-        /* 滑块控件 */
-        .slider-control {
-            margin-bottom: 20px;
-        }
-
-        .slider-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .slider-label {
-            font-size: 13px;
-            color: #ccc;
-        }
-
+        .upload-area:hover { border-color: #00d9ff; background: rgba(0,217,255,0.05); }
+        .upload-area.dragover { border-color: #00ff88; background: rgba(0,255,136,0.1); }
+        .upload-icon { font-size: 48px; margin-bottom: 12px; }
+        .upload-area p { color: #aaa; font-size: 14px; }
+        .upload-area span { color: #00d9ff; text-decoration: underline; }
+        .slider-control { margin-bottom: 20px; }
+        .slider-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .slider-label { font-size: 13px; color: #ccc; }
         .slider-value {
             font-size: 12px;
             color: #00d9ff;
@@ -218,7 +117,6 @@
             min-width: 50px;
             text-align: center;
         }
-
         input[type="range"] {
             width: 100%;
             height: 6px;
@@ -227,7 +125,6 @@
             outline: none;
             -webkit-appearance: none;
         }
-
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 18px;
@@ -236,20 +133,8 @@
             background: linear-gradient(135deg, #00d9ff, #00ff88);
             cursor: pointer;
             box-shadow: 0 2px 10px rgba(0,217,255,0.4);
-            transition: transform 0.2s;
         }
-
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.1);
-        }
-
-        /* 预设按钮 */
-        .preset-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
+        .preset-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .preset-btn {
             padding: 10px;
             border: 1px solid rgba(255,255,255,0.2);
@@ -260,24 +145,9 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
-        .preset-btn:hover {
-            background: rgba(0,217,255,0.2);
-            border-color: #00d9ff;
-        }
-
-        .preset-btn.active {
-            background: linear-gradient(135deg, rgba(0,217,255,0.3), rgba(0,255,136,0.3));
-            border-color: #00d9ff;
-        }
-
-        /* 操作按钮 */
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
+        .preset-btn:hover { background: rgba(0,217,255,0.2); border-color: #00d9ff; }
+        .preset-btn.active { background: linear-gradient(135deg, rgba(0,217,255,0.3), rgba(0,255,136,0.3)); border-color: #00d9ff; }
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; }
         .btn {
             padding: 14px 20px;
             border: none;
@@ -291,47 +161,13 @@
             justify-content: center;
             gap: 8px;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #00d9ff, #00ff88);
-            color: #1a1a2e;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,217,255,0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        /* 右侧图像显示区 */
-        .image-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .image-comparison {
-            display: flex;
-            gap: 20px;
-            flex: 1;
-        }
-
+        .btn-primary { background: linear-gradient(135deg, #00d9ff, #00ff88); color: #1a1a2e; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,217,255,0.4); }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+        .image-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+        .image-comparison { display: flex; gap: 20px; flex: 1; }
         .image-box {
             flex: 1;
             background: rgba(255,255,255,0.05);
@@ -341,24 +177,8 @@
             display: flex;
             flex-direction: column;
         }
-
-        .image-box h3 {
-            font-size: 14px;
-            color: #888;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .image-box h3 .badge {
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: rgba(0,217,255,0.2);
-            color: #00d9ff;
-        }
-
+        .image-box h3 { font-size: 14px; color: #888; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .image-box h3 .badge { font-size: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(0,217,255,0.2); color: #00d9ff; }
         .image-container {
             flex: 1;
             display: flex;
@@ -370,26 +190,9 @@
             position: relative;
             min-height: 400px;
         }
-
-        .image-container img,
-        .image-container canvas {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .placeholder {
-            text-align: center;
-            color: #666;
-        }
-
-        .placeholder-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        /* 图像信息 */
+        .image-container img, .image-container canvas { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .placeholder { text-align: center; color: #666; }
+        .placeholder-icon { font-size: 64px; margin-bottom: 16px; opacity: 0.5; }
         .image-info {
             margin-top: 12px;
             padding: 12px;
@@ -400,14 +203,7 @@
             display: flex;
             justify-content: space-between;
         }
-
-        /* 格式选择 */
-        .format-select {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
+        .format-select { display: flex; gap: 10px; margin-bottom: 10px; }
         .format-option {
             flex: 1;
             padding: 10px;
@@ -420,70 +216,30 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
-        .format-option:hover {
-            border-color: #00d9ff;
-        }
-
-        .format-option.active {
-            background: rgba(0,217,255,0.2);
-            border-color: #00d9ff;
-            color: #fff;
-        }
-
-        /* 质量滑块 */
-        .quality-control {
-            margin-bottom: 15px;
-        }
-
-        /* 加载动画 */
+        .format-option:hover { border-color: #00d9ff; }
+        .format-option.active { background: rgba(0,217,255,0.2); border-color: #00d9ff; color: #fff; }
         .loading-overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.7);
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 12px;
         }
-
         .spinner {
-            width: 50px;
-            height: 50px;
+            width: 50px; height: 50px;
             border: 3px solid rgba(255,255,255,0.1);
             border-top-color: #00d9ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* 隐藏元素 */
-        .hidden {
-            display: none !important;
-        }
-
-        /* 复选框样式 */
-        .checkbox-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
-
-        .checkbox-control input {
-            display: none;
-        }
-
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .hidden { display: none !important; }
+        .checkbox-control { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; cursor: pointer; }
+        .checkbox-control input { display: none; }
         .checkbox-custom {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             border: 2px solid rgba(255,255,255,0.3);
             border-radius: 4px;
             display: flex;
@@ -491,31 +247,10 @@
             justify-content: center;
             transition: all 0.3s;
         }
-
-        .checkbox-control input:checked + .checkbox-custom {
-            background: linear-gradient(135deg, #00d9ff, #00ff88);
-            border-color: transparent;
-        }
-
-        .checkbox-custom::after {
-            content: '✓';
-            color: #1a1a2e;
-            font-size: 12px;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .checkbox-control input:checked + .checkbox-custom::after {
-            opacity: 1;
-        }
-
-        .checkbox-label {
-            font-size: 13px;
-            color: #ccc;
-        }
-
-        /* Toast通知 */
+        .checkbox-control input:checked + .checkbox-custom { background: linear-gradient(135deg, #00d9ff, #00ff88); border-color: transparent; }
+        .checkbox-custom::after { content: '✓'; color: #1a1a2e; font-size: 12px; font-weight: bold; opacity: 0; }
+        .checkbox-control input:checked + .checkbox-custom::after { opacity: 1; }
+        .checkbox-label { font-size: 13px; color: #ccc; }
         .toast {
             position: fixed;
             bottom: 30px;
@@ -530,24 +265,13 @@
             transition: all 0.4s ease;
             z-index: 1000;
         }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .toast.error { background: rgba(255,68,68,0.9); color: #fff; }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .toast.error {
-            background: rgba(255,68,68,0.9);
-            color: #fff;
-        }
-
-        /* ==================== 付费弹窗样式 ==================== */
+        /* 付费弹窗 */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.8);
             display: flex;
             align-items: center;
@@ -557,34 +281,25 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
-
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
+        .modal-overlay.show { opacity: 1; visibility: visible; }
         .modal {
             background: linear-gradient(135deg, #1e1e3f 0%, #2a2a5a 100%);
             border-radius: 20px;
             padding: 30px;
-            max-width: 450px;
+            max-width: 480px;
             width: 90%;
             border: 1px solid rgba(255,255,255,0.1);
             transform: scale(0.9);
             transition: transform 0.3s ease;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
-
-        .modal-overlay.show .modal {
-            transform: scale(1);
-        }
-
+        .modal-overlay.show .modal { transform: scale(1); }
         .modal-close {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 30px;
-            height: 30px;
+            top: 15px; right: 15px;
+            width: 30px; height: 30px;
             border: none;
             background: rgba(255,255,255,0.1);
             border-radius: 50%;
@@ -593,39 +308,53 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
-        .modal-close:hover {
-            background: rgba(255,68,68,0.3);
-            color: #ff4444;
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
+        .modal-close:hover { background: rgba(255,68,68,0.3); color: #ff4444; }
+        .modal-header { text-align: center; margin-bottom: 25px; }
         .modal-header h2 {
             font-size: 22px;
             margin-bottom: 8px;
             background: linear-gradient(90deg, #ffd700, #ffaa00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
+        .modal-header p { color: #888; font-size: 13px; }
 
-        .modal-header p {
-            color: #888;
-            font-size: 13px;
+        /* 设备码显示 */
+        .device-code-section {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,215,0,0.3);
         }
+        .device-code-section .label { font-size: 12px; color: #888; margin-bottom: 8px; }
+        .device-code-section .code {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffd700;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .device-code-section .copy-btn {
+            background: rgba(255,215,0,0.2);
+            border: 1px solid rgba(255,215,0,0.5);
+            color: #ffd700;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .device-code-section .copy-btn:hover { background: rgba(255,215,0,0.3); }
+        .device-code-section .tip { font-size: 11px; color: #ff6b6b; margin-top: 10px; }
 
         /* 套餐选择 */
-        .pricing-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
+        .pricing-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
         .pricing-card {
             background: rgba(255,255,255,0.05);
             border: 2px solid rgba(255,255,255,0.1);
@@ -637,26 +366,13 @@
             justify-content: space-between;
             align-items: center;
         }
-
-        .pricing-card:hover {
-            border-color: #00d9ff;
-            background: rgba(0,217,255,0.1);
-        }
-
-        .pricing-card.selected {
-            border-color: #ffd700;
-            background: rgba(255,215,0,0.1);
-        }
-
-        .pricing-card.popular {
-            position: relative;
-        }
-
+        .pricing-card:hover { border-color: #00d9ff; background: rgba(0,217,255,0.1); }
+        .pricing-card.selected { border-color: #ffd700; background: rgba(255,215,0,0.1); }
+        .pricing-card.popular { position: relative; }
         .pricing-card.popular::before {
             content: '推荐';
             position: absolute;
-            top: -10px;
-            right: 15px;
+            top: -10px; right: 15px;
             background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
             color: #fff;
             font-size: 10px;
@@ -664,80 +380,22 @@
             border-radius: 10px;
             font-weight: 600;
         }
-
-        .pricing-info h4 {
-            font-size: 15px;
-            margin-bottom: 4px;
-        }
-
-        .pricing-info p {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .pricing-price {
-            text-align: right;
-        }
-
-        .pricing-price .amount {
-            font-size: 24px;
-            font-weight: 700;
-            color: #ffd700;
-        }
-
-        .pricing-price .unit {
-            font-size: 12px;
-            color: #888;
-        }
+        .pricing-info h4 { font-size: 15px; margin-bottom: 4px; }
+        .pricing-info p { font-size: 12px; color: #888; }
+        .pricing-price { text-align: right; }
+        .pricing-price .amount { font-size: 24px; font-weight: 700; color: #ffd700; }
+        .pricing-price .unit { font-size: 12px; color: #888; }
 
         /* 二维码区域 */
-        .qr-section {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .qr-section img {
-            width: 180px;
-            height: 180px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            background: #fff;
-            padding: 10px;
-        }
-
-        .qr-section p {
-            font-size: 13px;
-            color: #00d9ff;
-        }
-
-        .qr-section .tip {
-            font-size: 11px;
-            color: #888;
-            margin-top: 8px;
-        }
+        .qr-section { text-align: center; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 20px; }
+        .qr-section img { width: 160px; height: 160px; border-radius: 10px; margin-bottom: 12px; background: #fff; padding: 8px; }
+        .qr-section p { font-size: 13px; color: #00d9ff; }
+        .qr-section .tip { font-size: 11px; color: #888; margin-top: 8px; }
 
         /* 激活码输入 */
-        .activation-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .activation-section h4 {
-            font-size: 13px;
-            color: #888;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .activation-input-group {
-            display: flex;
-            gap: 10px;
-        }
-
+        .activation-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .activation-section h4 { font-size: 13px; color: #888; margin-bottom: 12px; text-align: center; }
+        .activation-input-group { display: flex; gap: 10px; }
         .activation-input-group input {
             flex: 1;
             padding: 12px 15px;
@@ -747,17 +405,9 @@
             color: #fff;
             font-size: 14px;
             outline: none;
-            transition: border-color 0.3s;
         }
-
-        .activation-input-group input:focus {
-            border-color: #00d9ff;
-        }
-
-        .activation-input-group input::placeholder {
-            color: #666;
-        }
-
+        .activation-input-group input:focus { border-color: #00d9ff; }
+        .activation-input-group input::placeholder { color: #666; }
         .activation-input-group button {
             padding: 12px 20px;
             background: linear-gradient(135deg, #00d9ff, #00ff88);
@@ -766,42 +416,75 @@
             color: #1a1a2e;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
         }
+        .contact-info { text-align: center; margin-top: 15px; font-size: 12px; color: #666; }
+        .contact-info a { color: #00d9ff; text-decoration: none; }
 
-        .activation-input-group button:hover {
-            transform: translateY(-2px);
+        /* 激活码生成器弹窗 */
+        .generator-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
-
-        /* 联系方式 */
-        .contact-info {
-            text-align: center;
-            margin-top: 15px;
+        .generator-section summary {
+            cursor: pointer;
+            color: #888;
             font-size: 12px;
-            color: #666;
+            text-align: center;
+        }
+        .generator-section summary:hover { color: #00d9ff; }
+        .generator-content { margin-top: 15px; }
+        .generator-content input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 13px;
+        }
+        .generator-content select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 13px;
+        }
+        .generator-content button {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .generated-code {
+            margin-top: 10px;
+            padding: 15px;
+            background: rgba(0,255,136,0.1);
+            border: 1px solid rgba(0,255,136,0.3);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .generated-code .code {
+            font-size: 16px;
+            font-weight: 700;
+            color: #00ff88;
+            font-family: monospace;
+            word-break: break-all;
         }
 
-        .contact-info a {
-            color: #00d9ff;
-            text-decoration: none;
-        }
-
-        /* 响应式 */
         @media (max-width: 1200px) {
-            .container {
-                flex-direction: column;
-            }
-            .control-panel {
-                width: 100%;
-                max-height: none;
-            }
-            .image-comparison {
-                flex-direction: column;
-            }
-            .header {
-                flex-direction: column;
-                text-align: center;
-            }
+            .container { flex-direction: column; }
+            .control-panel { width: 100%; max-height: none; }
+            .image-comparison { flex-direction: column; }
+            .header { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -826,9 +509,7 @@
     </div>
 
     <div class="container">
-        <!-- 左侧控制面板 -->
         <div class="control-panel">
-            <!-- 上传区域 -->
             <div class="panel-section">
                 <h3>📁 图像上传</h3>
                 <div class="upload-area" id="uploadArea">
@@ -837,8 +518,6 @@
                     <input type="file" id="fileInput" accept="image/*" style="display:none">
                 </div>
             </div>
-
-            <!-- 预设方案 -->
             <div class="panel-section">
                 <h3>⚡ 快速预设</h3>
                 <div class="preset-buttons">
@@ -850,11 +529,8 @@
                     <button class="preset-btn" onclick="applyPreset('microscope')">显微镜</button>
                 </div>
             </div>
-
-            <!-- 基础调整 -->
             <div class="panel-section">
                 <h3>🎨 基础调整</h3>
-                
                 <div class="slider-control">
                     <div class="slider-header">
                         <span class="slider-label">亮度</span>
@@ -862,7 +538,6 @@
                     </div>
                     <input type="range" id="brightness" min="-100" max="100" value="0">
                 </div>
-
                 <div class="slider-control">
                     <div class="slider-header">
                         <span class="slider-label">对比度</span>
@@ -870,7 +545,6 @@
                     </div>
                     <input type="range" id="contrast" min="-100" max="100" value="0">
                 </div>
-
                 <div class="slider-control">
                     <div class="slider-header">
                         <span class="slider-label">饱和度</span>
@@ -878,7 +552,6 @@
                     </div>
                     <input type="range" id="saturation" min="-100" max="100" value="0">
                 </div>
-
                 <div class="slider-control">
                     <div class="slider-header">
                         <span class="slider-label">伽马值</span>
@@ -887,11 +560,8 @@
                     <input type="range" id="gamma" min="50" max="200" value="100">
                 </div>
             </div>
-
-            <!-- 清晰度增强 -->
             <div class="panel-section">
                 <h3>🔍 清晰度增强</h3>
-                
                 <div class="slider-control">
                     <div class="slider-header">
                         <span class="slider-label">锐化强度</span>
@@ -899,7 +569,6 @@
                     </div>
                     <input type="range" id="sharpen" min="0" max="200" value="0">
                 </div>
-
                 <div class="slider-control">
                     <div class="slider-header">
                         <span class="slider-label">CLAHE对比度</span>
@@ -907,7 +576,6 @@
                     </div>
                     <input type="range" id="clahe" min="0" max="100" value="0">
                 </div>
-
                 <div class="slider-control">
                     <div class="slider-header">
                         <span class="slider-label">去噪强度</span>
@@ -916,35 +584,26 @@
                     <input type="range" id="denoise" min="0" max="100" value="0">
                 </div>
             </div>
-
-            <!-- 导出设置 -->
             <div class="panel-section">
                 <h3>💾 导出设置</h3>
-                
                 <div class="format-select">
                     <div class="format-option active" data-format="png" onclick="selectFormat('png')">PNG</div>
                     <div class="format-option" data-format="jpeg" onclick="selectFormat('jpeg')">JPEG</div>
                     <div class="format-option" data-format="webp" onclick="selectFormat('webp')">WebP</div>
                 </div>
-
-                <div class="quality-control" id="qualityControl">
-                    <div class="slider-control">
-                        <div class="slider-header">
-                            <span class="slider-label">图像质量</span>
-                            <span class="slider-value" id="qualityValue">95%</span>
-                        </div>
-                        <input type="range" id="quality" min="60" max="100" value="95">
+                <div class="slider-control" id="qualityControl">
+                    <div class="slider-header">
+                        <span class="slider-label">图像质量</span>
+                        <span class="slider-value" id="qualityValue">95%</span>
                     </div>
+                    <input type="range" id="quality" min="60" max="100" value="95">
                 </div>
-
                 <label class="checkbox-control">
                     <input type="checkbox" id="keepOriginalSize" checked>
                     <span class="checkbox-custom"></span>
                     <span class="checkbox-label">保持原始尺寸</span>
                 </label>
             </div>
-
-            <!-- 操作按钮 -->
             <div class="panel-section">
                 <div class="action-buttons">
                     <button class="btn btn-primary" id="downloadBtn" onclick="downloadImage()" disabled>
@@ -957,10 +616,8 @@
             </div>
         </div>
 
-        <!-- 右侧图像显示区 -->
         <div class="image-panel">
             <div class="image-comparison">
-                <!-- 原图 -->
                 <div class="image-box">
                     <h3>原始图像 <span class="badge">Original</span></h3>
                     <div class="image-container" id="originalContainer">
@@ -975,8 +632,6 @@
                         <span id="originalDimensions">-</span>
                     </div>
                 </div>
-
-                <!-- 处理后 -->
                 <div class="image-box">
                     <h3>处理效果 <span class="badge">Preview</span></h3>
                     <div class="image-container" id="previewContainer">
@@ -1005,11 +660,21 @@
             
             <div class="modal-header">
                 <h2>👑 购买导出次数</h2>
-                <p>支持医学图像处理工具的持续开发</p>
+                <p>激活码与设备绑定，仅限本机使用</p>
+            </div>
+
+            <!-- 设备码显示 -->
+            <div class="device-code-section">
+                <div class="label">📱 您的设备码（付款时请备注）</div>
+                <div class="code">
+                    <span id="deviceCodeDisplay">加载中...</span>
+                    <button class="copy-btn" onclick="copyDeviceCode()">复制</button>
+                </div>
+                <div class="tip">⚠️ 激活码与设备码绑定，请勿分享给他人</div>
             </div>
 
             <div class="pricing-options">
-                <div class="pricing-card" onclick="selectPricing(this, '10')" data-type="10">
+                <div class="pricing-card" onclick="selectPricing(this, '10')">
                     <div class="pricing-info">
                         <h4>🎫 基础包</h4>
                         <p>10次导出资格</p>
@@ -1019,8 +684,7 @@
                         <span class="unit">/10次</span>
                     </div>
                 </div>
-
-                <div class="pricing-card popular" onclick="selectPricing(this, '50')" data-type="50">
+                <div class="pricing-card popular" onclick="selectPricing(this, '50')">
                     <div class="pricing-info">
                         <h4>🎁 超值包</h4>
                         <p>50次导出资格</p>
@@ -1030,8 +694,7 @@
                         <span class="unit">/50次</span>
                     </div>
                 </div>
-
-                <div class="pricing-card" onclick="selectPricing(this, 'vip')" data-type="vip">
+                <div class="pricing-card" onclick="selectPricing(this, 'vip')">
                     <div class="pricing-info">
                         <h4>👑 永久会员</h4>
                         <p>无限导出，永久有效</p>
@@ -1044,10 +707,9 @@
             </div>
 
             <div class="qr-section">
-                <!-- 这里替换成你的二维码路径 -->
-                <img src="assets/images/support-qr.png" alt="付款二维码" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22><rect fill=%22%23fff%22 width=%22180%22 height=%22180%22/><text x=%2290%22 y=%2290%22 text-anchor=%22middle%22 fill=%22%23999%22>二维码</text></svg>'">
+                <img src="assets/images/support-qr.png" alt="付款二维码" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22><rect fill=%22%23fff%22 width=%22160%22 height=%22160%22/><text x=%2280%22 y=%2280%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2214%22>二维码</text></svg>'">
                 <p>微信扫码支付</p>
-                <div class="tip">付款后请备注您选择的套餐类型</div>
+                <div class="tip">付款时请备注：套餐类型 + 设备码</div>
             </div>
 
             <div class="activation-section">
@@ -1059,57 +721,136 @@
             </div>
 
             <div class="contact-info">
-                付款后请联系作者微信：<a href="mailto:your@email.com">Glacier_C</a>
+                付款后联系获取激活码：<a href="mailto:your@email.com">your@email.com</a>
             </div>
+
+            <!-- 管理员激活码生成器（折叠隐藏） -->
+            <details class="generator-section">
+                <summary>🔧 管理员工具</summary>
+                <div class="generator-content">
+                    <input type="password" id="adminPassword" placeholder="管理员密码">
+                    <input type="text" id="targetDeviceCode" placeholder="用户设备码">
+                    <select id="codeType">
+                        <option value="10">基础包 (10次)</option>
+                        <option value="50">超值包 (50次)</option>
+                        <option value="vip">永久会员</option>
+                    </select>
+                    <button onclick="generateActivationCode()">生成激活码</button>
+                    <div class="generated-code hidden" id="generatedCodeBox">
+                        <div class="code" id="generatedCode"></div>
+                    </div>
+                </div>
+            </details>
         </div>
     </div>
 
-    <!-- Toast通知 -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // ==================== 付费系统配置 ====================
+        // ==================== 配置 ====================
         const CONFIG = {
-            // 免费试用次数
             FREE_QUOTA: 3,
-            // 预设激活码（你可以随时修改这些）
-            // 格式: { 激活码: { type: '类型', quota: 次数 } }
-            ACTIVATION_CODES: {
-                // 10次包激活码
-                'MED10-AAAA-1111': { type: '10', quota: 10, used: false },
-                'MED10-BBBB-2222': { type: '10', quota: 10, used: false },
-                'MED10-CCCC-3333': { type: '10', quota: 10, used: false },
-                'MED10-DDDD-4444': { type: '10', quota: 10, used: false },
-                'MED10-EEEE-5555': { type: '10', quota: 10, used: false },
-                // 50次包激活码
-                'MED50-FFFF-6666': { type: '50', quota: 50, used: false },
-                'MED50-GGGG-7777': { type: '50', quota: 50, used: false },
-                'MED50-HHHH-8888': { type: '50', quota: 50, used: false },
-                // 永久会员激活码
-                'MEDVIP-XXXX-9999': { type: 'vip', quota: -1, used: false },
-                'MEDVIP-YYYY-8888': { type: 'vip', quota: -1, used: false },
-                'MEDVIP-ZZZZ-7777': { type: 'vip', quota: -1, used: false },
-            }
+            // 管理员密码（修改成你自己的）
+            ADMIN_PASSWORD: 'your_admin_password_here',
+            // 加密密钥（修改成你自己的随机字符串）
+            SECRET_KEY: 'MedicalImageTool2024SecretKey'
         };
 
-        // ==================== 付费系统核心 ====================
+        // ==================== 设备指纹生成 ====================
+        function generateDeviceFingerprint() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.textBaseline = 'top';
+            ctx.font = '14px Arial';
+            ctx.fillText('fingerprint', 2, 2);
+            const canvasData = canvas.toDataURL();
+
+            const components = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width + 'x' + screen.height,
+                screen.colorDepth,
+                new Date().getTimezoneOffset(),
+                navigator.hardwareConcurrency || 'unknown',
+                canvasData.slice(-50)
+            ];
+
+            return simpleHash(components.join('|'));
+        }
+
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            // 转为6位大写字母数字
+            const hex = Math.abs(hash).toString(36).toUpperCase();
+            return 'DEV-' + hex.substring(0, 6).padStart(6, '0');
+        }
+
+        // ==================== 激活码生成与验证 ====================
+        function generateCodeForDevice(deviceCode, type) {
+            // 生成格式: TYPE-DEVICEHASH-CHECKSUM
+            const typePrefix = { '10': 'B10', '50': 'B50', 'vip': 'VIP' }[type] || 'B10';
+            const rawData = `${deviceCode}-${type}-${CONFIG.SECRET_KEY}`;
+            
+            let hash = 0;
+            for (let i = 0; i < rawData.length; i++) {
+                hash = ((hash << 5) - hash) + rawData.charCodeAt(i);
+                hash = hash & hash;
+            }
+            
+            const hashStr = Math.abs(hash).toString(36).toUpperCase().substring(0, 8);
+            return `${typePrefix}-${hashStr}`;
+        }
+
+        function verifyActivationCode(code, deviceCode) {
+            code = code.toUpperCase().trim();
+            
+            // 解析激活码类型
+            let type;
+            if (code.startsWith('B10-')) type = '10';
+            else if (code.startsWith('B50-')) type = '50';
+            else if (code.startsWith('VIP-')) type = 'vip';
+            else return { valid: false, message: '无效的激活码格式' };
+
+            // 验证激活码是否匹配当前设备
+            const expectedCode = generateCodeForDevice(deviceCode, type);
+            
+            if (code === expectedCode) {
+                return { 
+                    valid: true, 
+                    type: type,
+                    quota: type === 'vip' ? -1 : (type === '50' ? 50 : 10)
+                };
+            }
+            
+            return { valid: false, message: '激活码与设备不匹配' };
+        }
+
+        // ==================== 配额管理 ====================
         class QuotaManager {
             constructor() {
-                this.storageKey = 'medical_image_tool_quota';
-                this.usedCodesKey = 'medical_image_tool_used_codes';
+                this.storageKey = 'med_img_tool_data';
+                this.deviceCode = generateDeviceFingerprint();
                 this.init();
             }
 
             init() {
                 const data = this.getData();
-                if (!data) {
+                if (!data || data.deviceCode !== this.deviceCode) {
+                    // 新设备或设备变更，重置数据
                     this.setData({
+                        deviceCode: this.deviceCode,
                         quota: CONFIG.FREE_QUOTA,
                         isVip: false,
                         usedCodes: []
                     });
                 }
                 this.updateDisplay();
+                document.getElementById('deviceCodeDisplay').textContent = this.deviceCode;
             }
 
             getData() {
@@ -1121,23 +862,12 @@
                 localStorage.setItem(this.storageKey, JSON.stringify(data));
             }
 
-            getQuota() {
-                const data = this.getData();
-                return data.quota;
-            }
-
-            isVip() {
-                const data = this.getData();
-                return data.isVip;
-            }
-
-            canExport() {
-                return this.isVip() || this.getQuota() > 0;
-            }
+            getQuota() { return this.getData().quota; }
+            isVip() { return this.getData().isVip; }
+            canExport() { return this.isVip() || this.getQuota() > 0; }
 
             useQuota() {
                 if (this.isVip()) return true;
-                
                 const data = this.getData();
                 if (data.quota > 0) {
                     data.quota--;
@@ -1148,107 +878,82 @@
                 return false;
             }
 
-            addQuota(amount) {
-                const data = this.getData();
-                data.quota += amount;
-                this.setData(data);
-                this.updateDisplay();
-            }
-
-            setVip() {
-                const data = this.getData();
-                data.isVip = true;
-                data.quota = -1;
-                this.setData(data);
-                this.updateDisplay();
-            }
-
             activateCode(code) {
-                const upperCode = code.toUpperCase().trim();
                 const data = this.getData();
-
+                
                 // 检查是否已使用
-                if (data.usedCodes && data.usedCodes.includes(upperCode)) {
+                if (data.usedCodes && data.usedCodes.includes(code.toUpperCase())) {
                     return { success: false, message: '该激活码已被使用' };
                 }
 
-                // 检查激活码是否有效
-                const codeData = CONFIG.ACTIVATION_CODES[upperCode];
-                if (!codeData) {
-                    return { success: false, message: '无效的激活码' };
+                // 验证激活码
+                const result = verifyActivationCode(code, this.deviceCode);
+                if (!result.valid) {
+                    return { success: false, message: result.message };
                 }
 
                 // 激活
-                if (codeData.type === 'vip') {
-                    this.setVip();
+                if (result.type === 'vip') {
+                    data.isVip = true;
+                    data.quota = -1;
                 } else {
-                    this.addQuota(codeData.quota);
+                    data.quota += result.quota;
                 }
 
                 // 记录已使用
                 if (!data.usedCodes) data.usedCodes = [];
-                data.usedCodes.push(upperCode);
+                data.usedCodes.push(code.toUpperCase());
                 this.setData(data);
+                this.updateDisplay();
 
-                const typeNames = {
-                    '10': '基础包(10次)',
-                    '50': '超值包(50次)',
-                    'vip': '永久会员'
-                };
-
-                return { 
-                    success: true, 
-                    message: `激活成功！已获得${typeNames[codeData.type]}` 
-                };
+                const typeNames = { '10': '基础包(10次)', '50': '超值包(50次)', 'vip': '永久会员' };
+                return { success: true, message: `激活成功！已获得${typeNames[result.type]}` };
             }
 
             updateDisplay() {
                 const quotaEl = document.getElementById('quotaValue');
                 if (!quotaEl) return;
-
                 if (this.isVip()) {
                     quotaEl.textContent = '∞ VIP';
                     quotaEl.className = 'value vip';
                 } else {
                     const quota = this.getQuota();
                     quotaEl.textContent = quota;
-                    if (quota <= 0) {
-                        quotaEl.className = 'value danger';
-                    } else if (quota <= 3) {
-                        quotaEl.className = 'value warning';
-                    } else {
-                        quotaEl.className = 'value';
-                    }
+                    quotaEl.className = 'value' + (quota <= 0 ? ' danger' : quota <= 3 ? ' warning' : '');
                 }
             }
         }
 
-        // 初始化配额管理器
         const quotaManager = new QuotaManager();
 
-        // ==================== 付费弹窗 ====================
-        let selectedPricing = '10';
-
-        function showPaymentModal() {
-            document.getElementById('paymentModal').classList.add('show');
-        }
-
-        function hidePaymentModal() {
-            document.getElementById('paymentModal').classList.remove('show');
-        }
+        // ==================== 弹窗控制 ====================
+        function showPaymentModal() { document.getElementById('paymentModal').classList.add('show'); }
+        function hidePaymentModal() { document.getElementById('paymentModal').classList.remove('show'); }
 
         function selectPricing(element, type) {
             document.querySelectorAll('.pricing-card').forEach(el => el.classList.remove('selected'));
             element.classList.add('selected');
-            selectedPricing = type;
+        }
+
+        function copyDeviceCode() {
+            const code = document.getElementById('deviceCodeDisplay').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('设备码已复制');
+            }).catch(() => {
+                // 回退方案
+                const input = document.createElement('input');
+                input.value = code;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showToast('设备码已复制');
+            });
         }
 
         function activateCode() {
             const code = document.getElementById('activationCode').value;
-            if (!code) {
-                showToast('请输入激活码', 'error');
-                return;
-            }
+            if (!code) { showToast('请输入激活码', 'error'); return; }
 
             const result = quotaManager.activateCode(code);
             if (result.success) {
@@ -1260,58 +965,56 @@
             }
         }
 
-        // ==================== 图像处理核心 ====================
-        let originalImage = null;
-        let originalImageData = null;
-        let currentFormat = 'png';
-        let isProcessing = false;
-        let processTimeout = null;
+        // 管理员生成激活码
+        function generateActivationCode() {
+            const password = document.getElementById('adminPassword').value;
+            if (password !== CONFIG.ADMIN_PASSWORD) {
+                showToast('管理员密码错误', 'error');
+                return;
+            }
 
+            const deviceCode = document.getElementById('targetDeviceCode').value.toUpperCase().trim();
+            if (!deviceCode || !deviceCode.startsWith('DEV-')) {
+                showToast('请输入有效的设备码', 'error');
+                return;
+            }
+
+            const type = document.getElementById('codeType').value;
+            const code = generateCodeForDevice(deviceCode, type);
+
+            document.getElementById('generatedCode').textContent = code;
+            document.getElementById('generatedCodeBox').classList.remove('hidden');
+            
+            // 复制到剪贴板
+            navigator.clipboard.writeText(code);
+            showToast('激活码已生成并复制');
+        }
+
+        // ==================== 图像处理核心 ====================
+        let originalImage = null, originalImageData = null, currentFormat = 'png', isProcessing = false, processTimeout = null;
         const fileInput = document.getElementById('fileInput');
         const uploadArea = document.getElementById('uploadArea');
         const originalImg = document.getElementById('originalImage');
         const previewCanvas = document.getElementById('previewCanvas');
         const ctx = previewCanvas.getContext('2d');
 
-        // 初始化事件监听
         document.addEventListener('DOMContentLoaded', () => {
             uploadArea.addEventListener('click', () => fileInput.click());
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.classList.add('dragover');
-            });
-            uploadArea.addEventListener('dragleave', () => {
-                uploadArea.classList.remove('dragover');
-            });
+            uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+            uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
             uploadArea.addEventListener('drop', (e) => {
                 e.preventDefault();
                 uploadArea.classList.remove('dragover');
-                const file = e.dataTransfer.files[0];
-                if (file && file.type.startsWith('image/')) {
-                    loadImage(file);
-                }
+                if (e.dataTransfer.files[0]?.type.startsWith('image/')) loadImage(e.dataTransfer.files[0]);
+            });
+            fileInput.addEventListener('change', (e) => { if (e.target.files[0]) loadImage(e.target.files[0]); });
+
+            ['brightness', 'contrast', 'saturation', 'gamma', 'sharpen', 'clahe', 'denoise', 'quality'].forEach(id => {
+                document.getElementById(id).addEventListener('input', () => { updateSliderValue(id); scheduleProcess(); });
             });
 
-            fileInput.addEventListener('change', (e) => {
-                if (e.target.files[0]) {
-                    loadImage(e.target.files[0]);
-                }
-            });
-
-            const sliders = ['brightness', 'contrast', 'saturation', 'gamma', 'sharpen', 'clahe', 'denoise', 'quality'];
-            sliders.forEach(id => {
-                const slider = document.getElementById(id);
-                slider.addEventListener('input', () => {
-                    updateSliderValue(id);
-                    scheduleProcess();
-                });
-            });
-
-            // 点击弹窗外部关闭
             document.getElementById('paymentModal').addEventListener('click', (e) => {
-                if (e.target.id === 'paymentModal') {
-                    hidePaymentModal();
-                }
+                if (e.target.id === 'paymentModal') hidePaymentModal();
             });
         });
 
@@ -1323,22 +1026,17 @@
                     originalImg.src = e.target.result;
                     originalImg.classList.remove('hidden');
                     document.querySelector('#originalContainer .placeholder').classList.add('hidden');
-
                     previewCanvas.width = originalImage.width;
                     previewCanvas.height = originalImage.height;
-
                     ctx.drawImage(originalImage, 0, 0);
                     originalImageData = ctx.getImageData(0, 0, previewCanvas.width, previewCanvas.height);
-
                     previewCanvas.classList.remove('hidden');
                     document.querySelector('#previewContainer .placeholder').classList.add('hidden');
-
                     document.getElementById('originalInfo').classList.remove('hidden');
                     document.getElementById('previewInfo').classList.remove('hidden');
                     document.getElementById('originalSize').textContent = formatFileSize(file.size);
                     document.getElementById('originalDimensions').textContent = `${originalImage.width} × ${originalImage.height}`;
                     document.getElementById('previewDimensions').textContent = `${originalImage.width} × ${originalImage.height}`;
-
                     document.getElementById('downloadBtn').disabled = false;
                     processImage();
                     showToast('图像加载成功！');
@@ -1351,28 +1049,13 @@
         function updateSliderValue(id) {
             const slider = document.getElementById(id);
             const valueSpan = document.getElementById(id + 'Value');
-            let value = slider.value;
-
-            switch(id) {
-                case 'gamma':
-                    valueSpan.textContent = (value / 100).toFixed(2);
-                    break;
-                case 'quality':
-                    valueSpan.textContent = value + '%';
-                    break;
-                default:
-                    valueSpan.textContent = value;
-            }
+            valueSpan.textContent = id === 'gamma' ? (slider.value / 100).toFixed(2) : id === 'quality' ? slider.value + '%' : slider.value;
         }
 
-        function scheduleProcess() {
-            if (processTimeout) clearTimeout(processTimeout);
-            processTimeout = setTimeout(() => processImage(), 50);
-        }
+        function scheduleProcess() { if (processTimeout) clearTimeout(processTimeout); processTimeout = setTimeout(processImage, 50); }
 
         function processImage() {
             if (!originalImageData || isProcessing) return;
-
             isProcessing = true;
             const startTime = performance.now();
             document.getElementById('loadingOverlay').classList.remove('hidden');
@@ -1386,22 +1069,14 @@
                 const clahe = parseInt(document.getElementById('clahe').value) / 100;
                 const denoise = parseInt(document.getElementById('denoise').value) / 100;
 
-                let imageData = new ImageData(
-                    new Uint8ClampedArray(originalImageData.data),
-                    originalImageData.width,
-                    originalImageData.height
-                );
-
+                let imageData = new ImageData(new Uint8ClampedArray(originalImageData.data), originalImageData.width, originalImageData.height);
                 if (denoise > 0) imageData = applyDenoise(imageData, denoise);
                 if (clahe > 0) imageData = applyCLAHE(imageData, clahe);
                 imageData = applyBasicAdjustments(imageData, brightness, contrast, saturation, gamma);
                 if (sharpen > 0) imageData = applySharpen(imageData, sharpen);
-
                 ctx.putImageData(imageData, 0, 0);
 
-                const endTime = performance.now();
-                document.getElementById('processingTime').textContent = `处理: ${(endTime - startTime).toFixed(0)}ms`;
-
+                document.getElementById('processingTime').textContent = `处理: ${(performance.now() - startTime).toFixed(0)}ms`;
                 document.getElementById('loadingOverlay').classList.add('hidden');
                 isProcessing = false;
             });
@@ -1409,155 +1084,81 @@
 
         function applyBasicAdjustments(imageData, brightness, contrast, saturation, gamma) {
             const data = imageData.data;
-            const contrastFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
-
+            const cf = (259 * (contrast + 255)) / (255 * (259 - contrast));
             for (let i = 0; i < data.length; i += 4) {
-                let r = data[i], g = data[i + 1], b = data[i + 2];
-
-                if (gamma !== 1) {
-                    r = 255 * Math.pow(r / 255, 1 / gamma);
-                    g = 255 * Math.pow(g / 255, 1 / gamma);
-                    b = 255 * Math.pow(b / 255, 1 / gamma);
-                }
-
+                let r = data[i], g = data[i+1], b = data[i+2];
+                if (gamma !== 1) { r = 255*Math.pow(r/255,1/gamma); g = 255*Math.pow(g/255,1/gamma); b = 255*Math.pow(b/255,1/gamma); }
                 r += brightness; g += brightness; b += brightness;
-                r = contrastFactor * (r - 128) + 128;
-                g = contrastFactor * (g - 128) + 128;
-                b = contrastFactor * (b - 128) + 128;
-
+                r = cf*(r-128)+128; g = cf*(g-128)+128; b = cf*(b-128)+128;
                 if (saturation !== 0) {
-                    const gray = 0.2989 * r + 0.587 * g + 0.114 * b;
-                    const satFactor = 1 + saturation / 100;
-                    r = gray + satFactor * (r - gray);
-                    g = gray + satFactor * (g - gray);
-                    b = gray + satFactor * (b - gray);
+                    const gray = 0.2989*r + 0.587*g + 0.114*b, sf = 1 + saturation/100;
+                    r = gray + sf*(r-gray); g = gray + sf*(g-gray); b = gray + sf*(b-gray);
                 }
-
-                data[i] = Math.max(0, Math.min(255, r));
-                data[i + 1] = Math.max(0, Math.min(255, g));
-                data[i + 2] = Math.max(0, Math.min(255, b));
+                data[i] = Math.max(0,Math.min(255,r)); data[i+1] = Math.max(0,Math.min(255,g)); data[i+2] = Math.max(0,Math.min(255,b));
             }
             return imageData;
         }
 
         function applySharpen(imageData, amount) {
-            const width = imageData.width, height = imageData.height;
-            const data = imageData.data;
-            const output = new Uint8ClampedArray(data);
-            const kernel = [0, -1, 0, -1, 5, -1, 0, -1, 0];
-
-            for (let y = 1; y < height - 1; y++) {
-                for (let x = 1; x < width - 1; x++) {
-                    for (let c = 0; c < 3; c++) {
-                        let sum = 0;
-                        for (let ky = -1; ky <= 1; ky++) {
-                            for (let kx = -1; kx <= 1; kx++) {
-                                const idx = ((y + ky) * width + (x + kx)) * 4 + c;
-                                sum += data[idx] * kernel[(ky + 1) * 3 + (kx + 1)];
-                            }
-                        }
-                        const idx = (y * width + x) * 4 + c;
-                        output[idx] = Math.max(0, Math.min(255, data[idx] + (sum - data[idx]) * amount));
-                    }
-                }
+            const w = imageData.width, h = imageData.height, data = imageData.data, out = new Uint8ClampedArray(data);
+            const k = [0,-1,0,-1,5,-1,0,-1,0];
+            for (let y = 1; y < h-1; y++) for (let x = 1; x < w-1; x++) for (let c = 0; c < 3; c++) {
+                let sum = 0;
+                for (let ky = -1; ky <= 1; ky++) for (let kx = -1; kx <= 1; kx++) sum += data[((y+ky)*w+(x+kx))*4+c] * k[(ky+1)*3+(kx+1)];
+                const idx = (y*w+x)*4+c;
+                out[idx] = Math.max(0, Math.min(255, data[idx] + (sum - data[idx]) * amount));
             }
-            return new ImageData(output, width, height);
+            return new ImageData(out, w, h);
         }
 
         function applyCLAHE(imageData, strength) {
             const data = imageData.data;
             for (let i = 0; i < data.length; i += 4) {
-                const r = data[i] / 255, g = data[i + 1] / 255, b = data[i + 2] / 255;
-                const max = Math.max(r, g, b), min = Math.min(r, g, b);
-                let h, s, l = (max + min) / 2;
-
-                if (max === min) { h = s = 0; }
-                else {
+                const r = data[i]/255, g = data[i+1]/255, b = data[i+2]/255;
+                const max = Math.max(r,g,b), min = Math.min(r,g,b);
+                let h, s, l = (max+min)/2;
+                if (max === min) { h = s = 0; } else {
                     const d = max - min;
-                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-                    switch (max) {
-                        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
-                        case g: h = ((b - r) / d + 2) / 6; break;
-                        case b: h = ((r - g) / d + 4) / 6; break;
-                    }
+                    s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+                    switch(max) { case r: h = ((g-b)/d + (g<b?6:0))/6; break; case g: h = ((b-r)/d+2)/6; break; case b: h = ((r-g)/d+4)/6; break; }
                 }
-
-                const midPoint = 0.5;
-                l = l < midPoint ? l + (midPoint - l) * strength * 0.5 : l - (l - midPoint) * strength * 0.3;
+                l = l < 0.5 ? l + (0.5-l)*strength*0.5 : l - (l-0.5)*strength*0.3;
                 l = Math.max(0, Math.min(1, l));
-
                 let r2, g2, b2;
-                if (s === 0) { r2 = g2 = b2 = l; }
-                else {
-                    const hue2rgb = (p, q, t) => {
-                        if (t < 0) t += 1; if (t > 1) t -= 1;
-                        if (t < 1/6) return p + (q - p) * 6 * t;
-                        if (t < 1/2) return q;
-                        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-                        return p;
-                    };
-                    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                    const p = 2 * l - q;
-                    r2 = hue2rgb(p, q, h + 1/3);
-                    g2 = hue2rgb(p, q, h);
-                    b2 = hue2rgb(p, q, h - 1/3);
+                if (s === 0) { r2 = g2 = b2 = l; } else {
+                    const hue2rgb = (p,q,t) => { if(t<0)t+=1; if(t>1)t-=1; if(t<1/6)return p+(q-p)*6*t; if(t<1/2)return q; if(t<2/3)return p+(q-p)*(2/3-t)*6; return p; };
+                    const q = l < 0.5 ? l*(1+s) : l+s-l*s, p = 2*l-q;
+                    r2 = hue2rgb(p,q,h+1/3); g2 = hue2rgb(p,q,h); b2 = hue2rgb(p,q,h-1/3);
                 }
-
-                data[i] = Math.round(r2 * 255);
-                data[i + 1] = Math.round(g2 * 255);
-                data[i + 2] = Math.round(b2 * 255);
+                data[i] = Math.round(r2*255); data[i+1] = Math.round(g2*255); data[i+2] = Math.round(b2*255);
             }
             return imageData;
         }
 
         function applyDenoise(imageData, strength) {
-            const width = imageData.width, height = imageData.height;
-            const data = imageData.data;
-            const output = new Uint8ClampedArray(data);
-            const radius = Math.ceil(strength * 2);
-
-            for (let y = radius; y < height - radius; y++) {
-                for (let x = radius; x < width - radius; x++) {
-                    for (let c = 0; c < 3; c++) {
-                        let sum = 0, count = 0;
-                        for (let ky = -radius; ky <= radius; ky++) {
-                            for (let kx = -radius; kx <= radius; kx++) {
-                                sum += data[((y + ky) * width + (x + kx)) * 4 + c];
-                                count++;
-                            }
-                        }
-                        const idx = (y * width + x) * 4 + c;
-                        output[idx] = data[idx] * (1 - strength) + (sum / count) * strength;
-                    }
-                }
+            const w = imageData.width, h = imageData.height, data = imageData.data, out = new Uint8ClampedArray(data);
+            const r = Math.ceil(strength * 2);
+            for (let y = r; y < h-r; y++) for (let x = r; x < w-r; x++) for (let c = 0; c < 3; c++) {
+                let sum = 0, cnt = 0;
+                for (let ky = -r; ky <= r; ky++) for (let kx = -r; kx <= r; kx++) { sum += data[((y+ky)*w+(x+kx))*4+c]; cnt++; }
+                out[(y*w+x)*4+c] = data[(y*w+x)*4+c] * (1-strength) + (sum/cnt) * strength;
             }
-            return new ImageData(output, width, height);
+            return new ImageData(out, w, h);
         }
 
         function applyPreset(preset) {
             const presets = {
-                original: { brightness: 0, contrast: 0, saturation: 0, gamma: 100, sharpen: 0, clahe: 0, denoise: 0 },
-                light: { brightness: 5, contrast: 10, saturation: 5, gamma: 98, sharpen: 50, clahe: 20, denoise: 10 },
-                medium: { brightness: 0, contrast: 15, saturation: 10, gamma: 97, sharpen: 80, clahe: 40, denoise: 15 },
-                strong: { brightness: -5, contrast: 25, saturation: 15, gamma: 95, sharpen: 120, clahe: 60, denoise: 20 },
-                pathology: { brightness: 0, contrast: 20, saturation: 12, gamma: 98, sharpen: 100, clahe: 50, denoise: 10 },
-                microscope: { brightness: 5, contrast: 18, saturation: 8, gamma: 96, sharpen: 90, clahe: 45, denoise: 15 }
+                original: {brightness:0,contrast:0,saturation:0,gamma:100,sharpen:0,clahe:0,denoise:0},
+                light: {brightness:5,contrast:10,saturation:5,gamma:98,sharpen:50,clahe:20,denoise:10},
+                medium: {brightness:0,contrast:15,saturation:10,gamma:97,sharpen:80,clahe:40,denoise:15},
+                strong: {brightness:-5,contrast:25,saturation:15,gamma:95,sharpen:120,clahe:60,denoise:20},
+                pathology: {brightness:0,contrast:20,saturation:12,gamma:98,sharpen:100,clahe:50,denoise:10},
+                microscope: {brightness:5,contrast:18,saturation:8,gamma:96,sharpen:90,clahe:45,denoise:15}
             };
-
-            const p = presets[preset];
-            if (!p) return;
-
-            Object.keys(p).forEach(key => {
-                const slider = document.getElementById(key);
-                if (slider) {
-                    slider.value = p[key];
-                    updateSliderValue(key);
-                }
-            });
-
-            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            const p = presets[preset]; if (!p) return;
+            Object.keys(p).forEach(k => { document.getElementById(k).value = p[k]; updateSliderValue(k); });
+            document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
-
             scheduleProcess();
             showToast(`已应用预设：${event.target.textContent}`);
         }
@@ -1569,58 +1170,28 @@
             document.getElementById('qualityControl').style.display = format === 'png' ? 'none' : 'block';
         }
 
-        // ==================== 导出（带配额检查） ====================
         function downloadImage() {
             if (!previewCanvas.width) return;
+            if (!quotaManager.canExport()) { showPaymentModal(); showToast('导出次数已用完', 'error'); return; }
+            if (!quotaManager.useQuota()) { showPaymentModal(); return; }
 
-            // 检查配额
-            if (!quotaManager.canExport()) {
-                showPaymentModal();
-                showToast('导出次数已用完，请购买更多次数', 'error');
-                return;
-            }
-
-            // 扣除配额
-            if (!quotaManager.useQuota()) {
-                showPaymentModal();
-                return;
-            }
-
-            // 执行导出
             const quality = parseInt(document.getElementById('quality').value) / 100;
-            let mimeType, extension;
-
-            switch(currentFormat) {
-                case 'jpeg': mimeType = 'image/jpeg'; extension = 'jpg'; break;
-                case 'webp': mimeType = 'image/webp'; extension = 'webp'; break;
-                default: mimeType = 'image/png'; extension = 'png';
-            }
-
+            const mimeTypes = { jpeg: 'image/jpeg', webp: 'image/webp', png: 'image/png' };
+            const exts = { jpeg: 'jpg', webp: 'webp', png: 'png' };
             const link = document.createElement('a');
-            link.download = `processed_image_${Date.now()}.${extension}`;
-            link.href = previewCanvas.toDataURL(mimeType, quality);
+            link.download = `processed_${Date.now()}.${exts[currentFormat] || 'png'}`;
+            link.href = previewCanvas.toDataURL(mimeTypes[currentFormat] || 'image/png', quality);
             link.click();
-
-            const remaining = quotaManager.isVip() ? '∞' : quotaManager.getQuota();
-            showToast(`图像已下载！剩余次数: ${remaining}`);
+            showToast(`已下载！剩余: ${quotaManager.isVip() ? '∞' : quotaManager.getQuota()}`);
         }
 
-        function resetAll() {
-            applyPreset('original');
-            showToast('已重置所有参数');
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes < 1024) return bytes + ' B';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-        }
-
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = 'toast show' + (type === 'error' ? ' error' : '');
-            setTimeout(() => toast.classList.remove('show'), 2500);
+        function resetAll() { applyPreset('original'); showToast('已重置'); }
+        function formatFileSize(bytes) { return bytes < 1024 ? bytes + ' B' : bytes < 1048576 ? (bytes/1024).toFixed(1) + ' KB' : (bytes/1048576).toFixed(2) + ' MB'; }
+        function showToast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show' + (type === 'error' ? ' error' : '');
+            setTimeout(() => t.classList.remove('show'), 2500);
         }
     </script>
 </body>
