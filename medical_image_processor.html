@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医学图像处理工具</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            background: linear-gradient(90deg, #00d9ff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #888;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* 左侧控制面板 */
+        .control-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+        }
+
+        .control-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .control-panel::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+        }
+
+        .panel-section {
+            margin-bottom: 24px;
+        }
+
+        .panel-section h3 {
+            font-size: 14px;
+            color: #00d9ff;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(255,255,255,0.3);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .upload-area:hover {
+            border-color: #00d9ff;
+            background: rgba(0,217,255,0.05);
+        }
+
+        .upload-area.dragover {
+            border-color: #00ff88;
+            background: rgba(0,255,136,0.1);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .upload-area p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .upload-area span {
+            color: #00d9ff;
+            text-decoration: underline;
+        }
+
+        /* 滑块控件 */
+        .slider-control {
+            margin-bottom: 20px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .slider-label {
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        .slider-value {
+            font-size: 12px;
+            color: #00d9ff;
+            background: rgba(0,217,255,0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,217,255,0.4);
+            transition: transform 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* 预设按钮 */
+        .preset-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .preset-btn {
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .preset-btn:hover {
+            background: rgba(0,217,255,0.2);
+            border-color: #00d9ff;
+        }
+
+        .preset-btn.active {
+            background: linear-gradient(135deg, rgba(0,217,255,0.3), rgba(0,255,136,0.3));
+            border-color: #00d9ff;
+        }
+
+        /* 操作按钮 */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            color: #1a1a2e;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,217,255,0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        /* 右侧图像显示区 */
+        .image-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .image-comparison {
+            display: flex;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .image-box {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-box h3 {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .image-box h3 .badge {
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(0,217,255,0.2);
+            color: #00d9ff;
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .image-container img,
+        .image-container canvas {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .placeholder {
+            text-align: center;
+            color: #666;
+        }
+
+        .placeholder-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* 图像信息 */
+        .image-info {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 12px;
+            color: #888;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 格式选择 */
+        .format-select {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .format-option {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            color: #ccc;
+            font-size: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .format-option:hover {
+            border-color: #00d9ff;
+        }
+
+        .format-option.active {
+            background: rgba(0,217,255,0.2);
+            border-color: #00d9ff;
+            color: #fff;
+        }
+
+        /* 质量滑块 */
+        .quality-control {
+            margin-bottom: 15px;
+        }
+
+        /* 加载动画 */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #00d9ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* 隐藏元素 */
+        .hidden {
+            display: none !important;
+        }
+
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+            }
+            .control-panel {
+                width: 100%;
+                max-height: none;
+            }
+            .image-comparison {
+                flex-direction: column;
+            }
+        }
+
+        /* 复选框样式 */
+        .checkbox-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .checkbox-control input {
+            display: none;
+        }
+
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .checkbox-control input:checked + .checkbox-custom {
+            background: linear-gradient(135deg, #00d9ff, #00ff88);
+            border-color: transparent;
+        }
+
+        .checkbox-custom::after {
+            content: '✓';
+            color: #1a1a2e;
+            font-size: 12px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .checkbox-control input:checked + .checkbox-custom::after {
+            opacity: 1;
+        }
+
+        .checkbox-label {
+            font-size: 13px;
+            color: #ccc;
+        }
+
+        /* Toast通知 */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(0,217,255,0.9);
+            color: #1a1a2e;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔬 医学图像处理工具</h1>
+        <p>支持病理切片、显微镜图像等医学图像的清晰化处理 | 实时预览 | 高质量导出</p>
+    </div>
+
+    <div class="container">
+        <!-- 左侧控制面板 -->
+        <div class="control-panel">
+            <!-- 上传区域 -->
+            <div class="panel-section">
+                <h3>📁 图像上传</h3>
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">🖼️</div>
+                    <p>拖拽图像到此处<br>或 <span>点击选择文件</span></p>
+                    <input type="file" id="fileInput" accept="image/*" style="display:none">
+                </div>
+            </div>
+
+            <!-- 预设方案 -->
+            <div class="panel-section">
+                <h3>⚡ 快速预设</h3>
+                <div class="preset-buttons">
+                    <button class="preset-btn" onclick="applyPreset('original')">原图</button>
+                    <button class="preset-btn" onclick="applyPreset('light')">轻度增强</button>
+                    <button class="preset-btn" onclick="applyPreset('medium')">中度增强</button>
+                    <button class="preset-btn" onclick="applyPreset('strong')">强力增强</button>
+                    <button class="preset-btn" onclick="applyPreset('pathology')">病理优化</button>
+                    <button class="preset-btn" onclick="applyPreset('microscope')">显微镜</button>
+                </div>
+            </div>
+
+            <!-- 基础调整 -->
+            <div class="panel-section">
+                <h3>🎨 基础调整</h3>
+                
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">亮度</span>
+                        <span class="slider-value" id="brightnessValue">0</span>
+                    </div>
+                    <input type="range" id="brightness" min="-100" max="100" value="0">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">对比度</span>
+                        <span class="slider-value" id="contrastValue">0</span>
+                    </div>
+                    <input type="range" id="contrast" min="-100" max="100" value="0">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">饱和度</span>
+                        <span class="slider-value" id="saturationValue">0</span>
+                    </div>
+                    <input type="range" id="saturation" min="-100" max="100" value="0">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">伽马值</span>
+                        <span class="slider-value" id="gammaValue">1.00</span>
+                    </div>
+                    <input type="range" id="gamma" min="50" max="200" value="100">
+                </div>
+            </div>
+
+            <!-- 清晰度增强 -->
+            <div class="panel-section">
+                <h3>🔍 清晰度增强</h3>
+                
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">锐化强度</span>
+                        <span class="slider-value" id="sharpenValue">0</span>
+                    </div>
+                    <input type="range" id="sharpen" min="0" max="200" value="0">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">CLAHE对比度</span>
+                        <span class="slider-value" id="claheValue">0</span>
+                    </div>
+                    <input type="range" id="clahe" min="0" max="100" value="0">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">去噪强度</span>
+                        <span class="slider-value" id="denoiseValue">0</span>
+                    </div>
+                    <input type="range" id="denoise" min="0" max="100" value="0">
+                </div>
+            </div>
+
+            <!-- 导出设置 -->
+            <div class="panel-section">
+                <h3>💾 导出设置</h3>
+                
+                <div class="format-select">
+                    <div class="format-option active" data-format="png" onclick="selectFormat('png')">PNG</div>
+                    <div class="format-option" data-format="jpeg" onclick="selectFormat('jpeg')">JPEG</div>
+                    <div class="format-option" data-format="webp" onclick="selectFormat('webp')">WebP</div>
+                </div>
+
+                <div class="quality-control" id="qualityControl">
+                    <div class="slider-control">
+                        <div class="slider-header">
+                            <span class="slider-label">图像质量</span>
+                            <span class="slider-value" id="qualityValue">95%</span>
+                        </div>
+                        <input type="range" id="quality" min="60" max="100" value="95">
+                    </div>
+                </div>
+
+                <label class="checkbox-control">
+                    <input type="checkbox" id="keepOriginalSize" checked>
+                    <span class="checkbox-custom"></span>
+                    <span class="checkbox-label">保持原始尺寸</span>
+                </label>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="panel-section">
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="downloadBtn" onclick="downloadImage()" disabled>
+                        <span>⬇️</span> 导出图像
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetAll()">
+                        <span>🔄</span> 重置所有
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧图像显示区 -->
+        <div class="image-panel">
+            <div class="image-comparison">
+                <!-- 原图 -->
+                <div class="image-box">
+                    <h3>原始图像 <span class="badge">Original</span></h3>
+                    <div class="image-container" id="originalContainer">
+                        <div class="placeholder">
+                            <div class="placeholder-icon">📷</div>
+                            <p>请上传图像</p>
+                        </div>
+                        <img id="originalImage" class="hidden">
+                    </div>
+                    <div class="image-info hidden" id="originalInfo">
+                        <span id="originalSize">-</span>
+                        <span id="originalDimensions">-</span>
+                    </div>
+                </div>
+
+                <!-- 处理后 -->
+                <div class="image-box">
+                    <h3>处理效果 <span class="badge">Preview</span></h3>
+                    <div class="image-container" id="previewContainer">
+                        <div class="placeholder">
+                            <div class="placeholder-icon">✨</div>
+                            <p>处理后预览</p>
+                        </div>
+                        <canvas id="previewCanvas" class="hidden"></canvas>
+                        <div class="loading-overlay hidden" id="loadingOverlay">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+                    <div class="image-info hidden" id="previewInfo">
+                        <span id="previewDimensions">-</span>
+                        <span id="processingTime">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast通知 -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // 全局变量
+        let originalImage = null;
+        let originalImageData = null;
+        let currentFormat = 'png';
+        let isProcessing = false;
+        let processTimeout = null;
+
+        // DOM元素
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const originalImg = document.getElementById('originalImage');
+        const previewCanvas = document.getElementById('previewCanvas');
+        const ctx = previewCanvas.getContext('2d');
+
+        // 初始化事件监听
+        document.addEventListener('DOMContentLoaded', () => {
+            // 上传区域事件
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    loadImage(file);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files[0]) {
+                    loadImage(e.target.files[0]);
+                }
+            });
+
+            // 滑块事件
+            const sliders = ['brightness', 'contrast', 'saturation', 'gamma', 'sharpen', 'clahe', 'denoise', 'quality'];
+            sliders.forEach(id => {
+                const slider = document.getElementById(id);
+                slider.addEventListener('input', () => {
+                    updateSliderValue(id);
+                    scheduleProcess();
+                });
+            });
+        });
+
+        // 加载图像
+        function loadImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                originalImage = new Image();
+                originalImage.onload = () => {
+                    // 显示原图
+                    originalImg.src = e.target.result;
+                    originalImg.classList.remove('hidden');
+                    document.querySelector('#originalContainer .placeholder').classList.add('hidden');
+
+                    // 设置Canvas尺寸
+                    previewCanvas.width = originalImage.width;
+                    previewCanvas.height = originalImage.height;
+
+                    // 获取原始图像数据
+                    ctx.drawImage(originalImage, 0, 0);
+                    originalImageData = ctx.getImageData(0, 0, previewCanvas.width, previewCanvas.height);
+
+                    // 显示Canvas
+                    previewCanvas.classList.remove('hidden');
+                    document.querySelector('#previewContainer .placeholder').classList.add('hidden');
+
+                    // 显示信息
+                    document.getElementById('originalInfo').classList.remove('hidden');
+                    document.getElementById('previewInfo').classList.remove('hidden');
+                    document.getElementById('originalSize').textContent = formatFileSize(file.size);
+                    document.getElementById('originalDimensions').textContent = `${originalImage.width} × ${originalImage.height}`;
+                    document.getElementById('previewDimensions').textContent = `${originalImage.width} × ${originalImage.height}`;
+
+                    // 启用下载按钮
+                    document.getElementById('downloadBtn').disabled = false;
+
+                    // 处理图像
+                    processImage();
+                    showToast('图像加载成功！');
+                };
+                originalImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // 更新滑块显示值
+        function updateSliderValue(id) {
+            const slider = document.getElementById(id);
+            const valueSpan = document.getElementById(id + 'Value');
+            let value = slider.value;
+
+            switch(id) {
+                case 'gamma':
+                    valueSpan.textContent = (value / 100).toFixed(2);
+                    break;
+                case 'quality':
+                    valueSpan.textContent = value + '%';
+                    break;
+                default:
+                    valueSpan.textContent = value;
+            }
+        }
+
+        // 防抖处理
+        function scheduleProcess() {
+            if (processTimeout) {
+                clearTimeout(processTimeout);
+            }
+            processTimeout = setTimeout(() => {
+                processImage();
+            }, 50);
+        }
+
+        // 主处理函数
+        function processImage() {
+            if (!originalImageData || isProcessing) return;
+
+            isProcessing = true;
+            const startTime = performance.now();
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+
+            // 使用requestAnimationFrame确保UI更新
+            requestAnimationFrame(() => {
+                // 获取参数
+                const brightness = parseInt(document.getElementById('brightness').value);
+                const contrast = parseInt(document.getElementById('contrast').value);
+                const saturation = parseInt(document.getElementById('saturation').value);
+                const gamma = parseInt(document.getElementById('gamma').value) / 100;
+                const sharpen = parseInt(document.getElementById('sharpen').value) / 100;
+                const clahe = parseInt(document.getElementById('clahe').value) / 100;
+                const denoise = parseInt(document.getElementById('denoise').value) / 100;
+
+                // 复制原始数据
+                let imageData = new ImageData(
+                    new Uint8ClampedArray(originalImageData.data),
+                    originalImageData.width,
+                    originalImageData.height
+                );
+
+                // 应用处理
+                if (denoise > 0) {
+                    imageData = applyDenoise(imageData, denoise);
+                }
+
+                if (clahe > 0) {
+                    imageData = applyCLAHE(imageData, clahe);
+                }
+
+                imageData = applyBasicAdjustments(imageData, brightness, contrast, saturation, gamma);
+
+                if (sharpen > 0) {
+                    imageData = applySharpen(imageData, sharpen);
+                }
+
+                // 绘制结果
+                ctx.putImageData(imageData, 0, 0);
+
+                // 更新处理时间
+                const endTime = performance.now();
+                document.getElementById('processingTime').textContent = `处理: ${(endTime - startTime).toFixed(0)}ms`;
+
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                isProcessing = false;
+            });
+        }
+
+        // 基础调整：亮度、对比度、饱和度、伽马
+        function applyBasicAdjustments(imageData, brightness, contrast, saturation, gamma) {
+            const data = imageData.data;
+            const contrastFactor = (259 * (contrast + 255)) / (255 * (259 - contrast));
+
+            for (let i = 0; i < data.length; i += 4) {
+                let r = data[i];
+                let g = data[i + 1];
+                let b = data[i + 2];
+
+                // 伽马校正
+                if (gamma !== 1) {
+                    r = 255 * Math.pow(r / 255, 1 / gamma);
+                    g = 255 * Math.pow(g / 255, 1 / gamma);
+                    b = 255 * Math.pow(b / 255, 1 / gamma);
+                }
+
+                // 亮度
+                r += brightness;
+                g += brightness;
+                b += brightness;
+
+                // 对比度
+                r = contrastFactor * (r - 128) + 128;
+                g = contrastFactor * (g - 128) + 128;
+                b = contrastFactor * (b - 128) + 128;
+
+                // 饱和度
+                if (saturation !== 0) {
+                    const gray = 0.2989 * r + 0.587 * g + 0.114 * b;
+                    const satFactor = 1 + saturation / 100;
+                    r = gray + satFactor * (r - gray);
+                    g = gray + satFactor * (g - gray);
+                    b = gray + satFactor * (b - gray);
+                }
+
+                data[i] = Math.max(0, Math.min(255, r));
+                data[i + 1] = Math.max(0, Math.min(255, g));
+                data[i + 2] = Math.max(0, Math.min(255, b));
+            }
+
+            return imageData;
+        }
+
+        // 锐化 (Unsharp Masking)
+        function applySharpen(imageData, amount) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const data = imageData.data;
+            const output = new Uint8ClampedArray(data);
+
+            // 简化的Unsharp Masking
+            const kernel = [
+                0, -1, 0,
+                -1, 5, -1,
+                0, -1, 0
+            ];
+
+            for (let y = 1; y < height - 1; y++) {
+                for (let x = 1; x < width - 1; x++) {
+                    for (let c = 0; c < 3; c++) {
+                        let sum = 0;
+                        for (let ky = -1; ky <= 1; ky++) {
+                            for (let kx = -1; kx <= 1; kx++) {
+                                const idx = ((y + ky) * width + (x + kx)) * 4 + c;
+                                sum += data[idx] * kernel[(ky + 1) * 3 + (kx + 1)];
+                            }
+                        }
+                        const idx = (y * width + x) * 4 + c;
+                        output[idx] = Math.max(0, Math.min(255, 
+                            data[idx] + (sum - data[idx]) * amount
+                        ));
+                    }
+                }
+            }
+
+            return new ImageData(output, width, height);
+        }
+
+        // 简化的CLAHE (在亮度通道应用)
+        function applyCLAHE(imageData, strength) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const data = imageData.data;
+
+            // 转换到HSL并增强L通道
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i] / 255;
+                const g = data[i + 1] / 255;
+                const b = data[i + 2] / 255;
+
+                const max = Math.max(r, g, b);
+                const min = Math.min(r, g, b);
+                let h, s, l = (max + min) / 2;
+
+                if (max === min) {
+                    h = s = 0;
+                } else {
+                    const d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    switch (max) {
+                        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+                        case g: h = ((b - r) / d + 2) / 6; break;
+                        case b: h = ((r - g) / d + 4) / 6; break;
+                    }
+                }
+
+                // 增强亮度通道（类似CLAHE效果）
+                const midPoint = 0.5;
+                if (l < midPoint) {
+                    l = l + (midPoint - l) * strength * 0.5;
+                } else {
+                    l = l - (l - midPoint) * strength * 0.3;
+                }
+                l = Math.max(0, Math.min(1, l));
+
+                // 转回RGB
+                let r2, g2, b2;
+                if (s === 0) {
+                    r2 = g2 = b2 = l;
+                } else {
+                    const hue2rgb = (p, q, t) => {
+                        if (t < 0) t += 1;
+                        if (t > 1) t -= 1;
+                        if (t < 1/6) return p + (q - p) * 6 * t;
+                        if (t < 1/2) return q;
+                        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                        return p;
+                    };
+                    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                    const p = 2 * l - q;
+                    r2 = hue2rgb(p, q, h + 1/3);
+                    g2 = hue2rgb(p, q, h);
+                    b2 = hue2rgb(p, q, h - 1/3);
+                }
+
+                data[i] = Math.round(r2 * 255);
+                data[i + 1] = Math.round(g2 * 255);
+                data[i + 2] = Math.round(b2 * 255);
+            }
+
+            return imageData;
+        }
+
+        // 去噪 (简单均值滤波)
+        function applyDenoise(imageData, strength) {
+            const width = imageData.width;
+            const height = imageData.height;
+            const data = imageData.data;
+            const output = new Uint8ClampedArray(data);
+            const radius = Math.ceil(strength * 2);
+
+            for (let y = radius; y < height - radius; y++) {
+                for (let x = radius; x < width - radius; x++) {
+                    for (let c = 0; c < 3; c++) {
+                        let sum = 0;
+                        let count = 0;
+                        for (let ky = -radius; ky <= radius; ky++) {
+                            for (let kx = -radius; kx <= radius; kx++) {
+                                const idx = ((y + ky) * width + (x + kx)) * 4 + c;
+                                sum += data[idx];
+                                count++;
+                            }
+                        }
+                        const idx = (y * width + x) * 4 + c;
+                        const avg = sum / count;
+                        output[idx] = data[idx] * (1 - strength) + avg * strength;
+                    }
+                }
+            }
+
+            return new ImageData(output, width, height);
+        }
+
+        // 预设方案
+        function applyPreset(preset) {
+            const presets = {
+                original: { brightness: 0, contrast: 0, saturation: 0, gamma: 100, sharpen: 0, clahe: 0, denoise: 0 },
+                light: { brightness: 5, contrast: 10, saturation: 5, gamma: 98, sharpen: 50, clahe: 20, denoise: 10 },
+                medium: { brightness: 0, contrast: 15, saturation: 10, gamma: 97, sharpen: 80, clahe: 40, denoise: 15 },
+                strong: { brightness: -5, contrast: 25, saturation: 15, gamma: 95, sharpen: 120, clahe: 60, denoise: 20 },
+                pathology: { brightness: 0, contrast: 20, saturation: 12, gamma: 98, sharpen: 100, clahe: 50, denoise: 10 },
+                microscope: { brightness: 5, contrast: 18, saturation: 8, gamma: 96, sharpen: 90, clahe: 45, denoise: 15 }
+            };
+
+            const p = presets[preset];
+            if (!p) return;
+
+            // 更新滑块
+            Object.keys(p).forEach(key => {
+                const slider = document.getElementById(key);
+                if (slider) {
+                    slider.value = p[key];
+                    updateSliderValue(key);
+                }
+            });
+
+            // 更新预设按钮状态
+            document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            scheduleProcess();
+            showToast(`已应用预设：${event.target.textContent}`);
+        }
+
+        // 格式选择
+        function selectFormat(format) {
+            currentFormat = format;
+            document.querySelectorAll('.format-option').forEach(el => el.classList.remove('active'));
+            document.querySelector(`[data-format="${format}"]`).classList.add('active');
+
+            // PNG不需要质量设置
+            document.getElementById('qualityControl').style.display = format === 'png' ? 'none' : 'block';
+        }
+
+        // 下载图像
+        function downloadImage() {
+            if (!previewCanvas.width) return;
+
+            const quality = parseInt(document.getElementById('quality').value) / 100;
+            let mimeType, extension;
+
+            switch(currentFormat) {
+                case 'jpeg':
+                    mimeType = 'image/jpeg';
+                    extension = 'jpg';
+                    break;
+                case 'webp':
+                    mimeType = 'image/webp';
+                    extension = 'webp';
+                    break;
+                default:
+                    mimeType = 'image/png';
+                    extension = 'png';
+            }
+
+            const link = document.createElement('a');
+            link.download = `processed_image_${Date.now()}.${extension}`;
+            link.href = previewCanvas.toDataURL(mimeType, quality);
+            link.click();
+
+            showToast('图像已开始下载！');
+        }
+
+        // 重置所有
+        function resetAll() {
+            applyPreset('original');
+            showToast('已重置所有参数');
+        }
+
+        // 工具函数
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+</html>
